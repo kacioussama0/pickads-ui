@@ -84,7 +84,6 @@ export default  {
 
     },
 
-
   },
 
 
@@ -159,19 +158,15 @@ export default  {
     </button>
   </div>
 
-<!--  <div  class="placeholder-glow"  v-else-if="!adsLoaded">-->
-<!--      <div class="placeholder w-100" style="height: 600px"></div>-->
-<!--  </div>-->
-
   <div class="container my-5">
 
     <h1 class="mb-5">Influencers</h1>
 
 
-      <div class="d-flex align-items-center justify-content-between mb-3">
+      <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
 
-        <div class="d-flex align-items-center position-relative w-50">
-          <i class="bi bi-search position-absolute top-50 translate-middle-y "></i>
+        <div class="d-flex align-items-center position-relative">
+          <i class="bi bi-search position-absolute top-50 translate-middle-y"></i>
           <input type="text" v-model="search"  @input="filterBySearch(search)" class="ps-4 d-block form-control form-control bg-transparent  border-0" placeholder="Search An Influncer">
         </div>
 
@@ -190,10 +185,6 @@ export default  {
         <input type="range" class="form-range w-50" v-model="range" min="0" max="100000" step="0.5" >
       </div>
 
-
-
-
-
     <div class="row mt-5 g-5">
 
       <div class="col-md-6 col-lg-4 col-xl-3" v-for="influencer in getInfluncers.data" v-if="influencersLoaded">
@@ -201,9 +192,9 @@ export default  {
         <div class="card border-0 rounded-4 overflow-hidden">
 
           <div class="position-relative overlay z-1">
-            <router-link :to="`/profile/${influencer.username}`">
+
               <img class="card-img-top" :src="influencer.avatar['medium']" :alt="influencer.last_name">
-            </router-link>
+
 
             <span class="position-absolute likes start-50 w-100 d-flex align-items-center justify-content-center bottom-0 text-white translate-middle-x z-3 fs-5" >
               <i class="bi bi-heart me-2 text-danger"></i>
@@ -215,10 +206,10 @@ export default  {
           </div>
 
           <div class="card-body text-center">
-            <h5 class="card-title text-capitalize ">{{influencer.first_name + ' ' + influencer.last_name}}</h5>
-            <p class="card-text mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-
-
+            <router-link :to="`/profile/${influencer.username}`" class="text-decoration-none">
+              <h5 class="card-title text-capitalize ">{{influencer.first_name + ' ' + influencer.last_name}}</h5>
+              <p class="card-text mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+            </router-link>
 
             <div class="buttons d-flex flex-column" v-if="influencer['social_medias'].length">
               <div class="dropdown mt-4">
@@ -245,9 +236,6 @@ export default  {
 
       </div>
 
-
-
-
       <div class="col-md-6 col-lg-4 col-xl-3" v-else-if="!influencersLoaded" v-for="item in 8">
 
         <div class="card border-0 shadow rounded-4 text-center">
@@ -265,7 +253,7 @@ export default  {
 
       </div>
 
-      <div v-else-if="influencersLoaded && !influencers.length">
+      <div v-else-if="!influencers.length">
         <h1>No Influencers</h1>
       </div>
 

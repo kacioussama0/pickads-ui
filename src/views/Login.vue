@@ -57,7 +57,7 @@ export default  {
 
               <div class="container">
 
-                <img src="/imgs/logo-white.svg" alt="logo white" class="w-25 d-block mx-auto  my-5">
+                <img src="/logo-white.svg" alt="logo white" class="w-25 d-block mx-auto  my-5">
 
                 <div class="card mx-auto rounded-4 " style="max-width: 600px">
 

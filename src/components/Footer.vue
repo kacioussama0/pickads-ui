@@ -4,8 +4,10 @@
 
 <template>
     <div class="container d-flex justify-content-between flex-wrap">
-      <p class="mb-0">All Reserved By PickADS &copy; 2023</p>
-      <div class="social-media d-flex flex-wrap">
+
+      <p class="mb-0">Tous réservés par PickADS © 2023</p>
+
+      <div class="social-media d-flex flex-wrap justify-content-center justify-content-lg-start">
         <a href="#">
           <i class="bi bi-facebook"></i>
         </a>

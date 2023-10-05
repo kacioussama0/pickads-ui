@@ -17,7 +17,7 @@ export default  {
 
   methods: {
     noHeader() {
-      return this.$route.name != 'Login'
+      return this.$route.name != 'Se Connecter'
     }
   }
 
@@ -45,9 +45,7 @@ export default  {
 
 <style>
 @import url('bootstrap-icons/font/bootstrap-icons.min.css');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
 @import "toastify-js/src/toastify.css";
-
 
 body {
   background-color: var(--bs-dark) !important;

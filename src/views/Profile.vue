@@ -2,7 +2,7 @@
   <div class="container my-5">
     <card v-if="loaded">
       <template v-slot:body>
-        <div class="d-flex flex-column align-items-center">
+        <div class="d-flex flex-column align-items-center p-5">
           <img :src="userProfile.avatar['small']" alt="" :class="`${userProfile.avatar['small'].includes('logo') ? ' w-50 img-fluid' : 'rounded-circle'}`" v-if="userProfile.avatar['small']">
           <span class="badge text-bg-warning mt-3">{{userProfile.category.name}}</span>
           <h1 class="text-capitalize">{{userProfile.last_name + ' ' + userProfile.first_name  }}</h1>
@@ -10,12 +10,15 @@
 
           <p>{{userProfile.bio}}</p>
 
-          <a :href="`mailto:${userProfile.email}`" class="link-light text-decoration-none mb-3">{{userProfile.email}}</a>
+          <a :href="`mailto:${userProfile.email}`" class=" text-decoration-none mb-3 text-dark">
+            <i class="bi bi-mailbox"></i>
+            {{userProfile.email}}
+          </a>
 
-          <div class="social-media d-flex align-items-center justify-content-between">
-            <a v-for="social in userProfile['social_medias']" class="text-center me-4 text-white text-decoration-none" target="_blank" :href="`${social.url}${social.pivot.url}`">
-              <i :class="`bi bi-${social.name.toLowerCase()} fs-3 me-2`"></i>
-              <span class="d-block">{{HRNumbers.toHumanString(social.pivot.followers)}} Followers</span>
+          <div class="social-media d-flex align-items-center justify-content-center justify-content-lg-between  flex-wrap">
+            <a v-for="social in userProfile['social_medias']" class="text-center me-4 text-white text-decoration-none text-center mb-3 mb-lg-0" target="_blank" :href="`${social.url}${social.pivot.url}`">
+              <i :class="`bi bi-${social.name.toLowerCase()} fs-3  text-primary `"></i>
+              <span class="d-block text-primary">{{HRNumbers.toHumanString(social.pivot.followers)}} Followers</span>
             </a>
           </div>
 

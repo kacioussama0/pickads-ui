@@ -1,6 +1,6 @@
 <template>
 
-  <div class="landing-page">
+  <div class="landing-page d-flex align-items-center justify-content-center">
 
     <img src="../assets/imgs/iconsSocial/2.png" alt="icon" class="w-25 position-absolute start-0  bottom-0 z-n1">
 
@@ -10,7 +10,7 @@
 
        <div class="col-lg-5 vstack gap-4 justify-content-center align-items-start order-1 order-lg-0 text-center text-lg-start">
 
-         <h1 class="display-3">
+         <h1 class="display-3 mx-auto mx-lg-0">
            Avec <span class="fw-bolder text-warning">PickAds</span>
          </h1>
 

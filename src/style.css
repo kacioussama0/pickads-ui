@@ -1,0 +1,14 @@
+@import "assets/css/bootstrap.css";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@font-face {
+    font-family: "RadiateSans-ExtraBoldExpanded";
+    src: url("assets/webfonts/radiate-sans-extra-bold.ttf");
+}
+
+body {
+    font-family: 'Outfit', sans-serif !important;
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-family: "RadiateSans-ExtraBoldExpanded",sans-serif;
+}

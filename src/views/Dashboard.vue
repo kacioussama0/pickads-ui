@@ -9,7 +9,7 @@
           <div class="row gy-5">
             <div class="col-lg-12" v-show="loading">
 
-              <card>
+              <card class="overflow-hidden">
 
                 <template v-slot:header>
                   <h4 class="p-3">Informations</h4>
@@ -27,7 +27,7 @@
                     <c-input id="mobile"  :rules="{required:false}" type="text" name="Mobile" :value="mobile.value" @onUpdate="update"/>
                     <c-input id="date_of_birth" :rules="{required:true}" type="date" name="Date Of Birth" :value="date_of_birth.value" @onUpdate="update"/>
                     <c-input id="category_id" :rules="{required:true}" type="select" name="Category" :options="categories" :value="category_id.value" @onUpdate="update"/>
-                    <c-button title="Update Info" :disabled="!infoValid" :status="infoFormStatus"/>
+                    <c-button title="Update Info" :disabled="!infoValid" :loading="infoLoadingUpdate" :status="infoFormStatus"/>
                   </form>
                 </template>
 
@@ -43,7 +43,7 @@
             <div class="row gy-5">
               <div class="col-lg-12" v-show="loading">
 
-                <card>
+                <card class="overflow-hidden">
 
                   <template v-slot:header>
                     <h4 class="p-3">Avatar</h4>
@@ -55,7 +55,7 @@
                         <img :src="user.avatar['small']" alt=""  class="rounded-circle profile-photo" width="150" height="150">
                           <input id="avatar"  type="file" class="w-100 h-100 position-absolute hiding" name="avatar" accept="image/*"/>
                       </span>
-                      <c-button title="Update Avatar" id="submit-image" @click="updateAvatar" :status="avatarFormStatus" disabled/>
+                      <c-button title="Update Avatar" id="submit-image" @click="updateAvatar" :loading="avatarLoadingUpdate" :status="avatarFormStatus" disabled/>
                     </form>
                   </template>
 
@@ -65,7 +65,7 @@
               </div>
               <div class="col-lg-12">
 
-                <card>
+                <card class="overflow-hidden">
 
                   <template v-slot:header>
                     <h4 class="p-3">Password</h4>
@@ -76,7 +76,7 @@
                       <c-input id="actualPassword" :rules="{required:true}" :value="actualPassword.value" type="password" name="Actual Password" @onUpdate="update"/>
                       <c-input id="newPassword" :rules="{required:true}" :value="newPassword.value" type="password" name="New Password" @onUpdate="update"/>
                       <c-input id="newPasswordConfirmation" :value="newPasswordConfirmation.value" :rules="{required:true}" type="password" name="New Password Confirmation" @onUpdate="update"/>
-                      <c-button title="Update Password" :status="passwordFormStatus" @click="updatePassword" :disabled="!passwordValid"/>
+                      <c-button title="Update Password" :loading="passwordLoadingUpdate" :status="passwordFormStatus" @click="updatePassword" :disabled="!passwordValid"/>
                     </form>
                   </template>
 
@@ -168,7 +168,10 @@ export default defineComponent({
       actualPassword: {value:'',valid: false},
       newPassword: {value:'',valid: false},
       newPasswordConfirmation: {value:'',valid: false},
-      loading: false
+      loading: false,
+      avatarLoadingUpdate : false,
+      infoLoadingUpdate : false,
+      passwordLoadingUpdate : false,
     }
   },
   computed: {
@@ -183,6 +186,7 @@ export default defineComponent({
   },
   methods: {
     updateInfo() {
+      this.infoLoadingUpdate = true;
       fetchAPI.post('user/update/profile',{
         first_name: this.first_name.value,
         last_name: this.last_name.value,
@@ -198,34 +202,41 @@ export default defineComponent({
           "content-type":"application/json",
         }
       }).then(response => {
-          this.infoFormStatus = 'success'
+         this.infoLoadingUpdate = false;
+          this.infoFormStatus = 'success';
       }).catch(error => {
-        this.infoFormStatus = 'failed'
+        this.infoLoadingUpdate = false;
+        this.infoFormStatus = 'failed';
       })
     },
 
     updateAvatar() {
-
+      this.avatarLoadingUpdate = true;
       let file = document.querySelector('#avatar').files[0];
       let form = new FormData();
       form.append("avatar",file);
       fetchAPI.post('user/update/avatar',form).then(response => {
-          this.avatarFormStatus = 'success'
+          this.avatarFormStatus = 'success';
+          this.avatarLoadingUpdate = false;
       }).catch(error => {
-        this.avatarFormStatus = 'failed'
+        this.avatarFormStatus = 'failed';
+        this.avatarLoadingUpdate = false;
       })
 
     },
 
     updatePassword() {
+      this.passwordLoadingUpdate = true;
       fetchAPI.post('user/update/password',{
           'current_password': this.actualPassword.value,
           'new_password': this.newPassword.value,
           'new_password_confirmation': this.newPasswordConfirmation.value,
       }).then(response => {
-        this.passwordFormStatus = 'success'
+        this.passwordFormStatus = 'success';
+        this.passwordLoadingUpdate = false;
       }).catch(error => {
-        this.passwordFormStatus = 'failed'
+        this.passwordFormStatus = 'failed';
+        this.passwordLoadingUpdate = false;
       });
     }
     ,

@@ -27,8 +27,7 @@ export default  {
 
 <template>
 
-<!--    <video autoplay muted loop id="myVideo" src="/src/assets/videos/landing-video.mp4" v-if="this.$route.path == '/'"></video>-->
-    <header class="py-2  bg-transparent" v-if="noHeader()">
+    <header class="bg-transparent sticky-lg-top " v-if="noHeader()">
         <nav-bar/>
     </header>
 
@@ -38,7 +37,7 @@ export default  {
     </main>
 
 
-    <footer class="py-2  bg-transparent" v-if="noHeader()">
+    <footer class="py-2  bg-transparent  border-top border-1 border-opacity-10 border-light py-3" v-if="noHeader()">
         <Footer/>
     </footer>
 </template>
@@ -50,16 +49,6 @@ export default  {
 body {
   background-color: var(--bs-dark) !important;
   color: #fff !important;
-
-}
-
-#myVideo {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  z-index: -1;
 }
 
 

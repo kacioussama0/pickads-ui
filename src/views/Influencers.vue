@@ -7,6 +7,9 @@ import Toastify from 'toastify-js'
 
 
 export default  {
+
+
+
   computed: {
     HRNumbers() {
       return HRNumbers
@@ -19,26 +22,29 @@ export default  {
   async created() {
     const response = await fetchAPI.get('/influencers');
     const ads = await fetchAPI.get('/ads');
-    const categories = await fetchAPI.get('categories');
+    const socialMedias = await fetchAPI.get('social-media');
+    this.ads =  ads.data.length >= 1 ? await ads.data.slice(1) : await ads.data;
     this.first_ad = await ads.data[0];
-    this.ads =  ads.data.length > 1 ? await ads.data.slice(1,ads.data.length) : await ads.data;
     this.influencers = await response.data;
-    this.categories = await categories.data;
+    this.socialMedias = await socialMedias.data;
     this.influencersLoaded = true;
     this.adsLoaded = true;
+
+
   },
 
   data() {
     return {
       influencers: [],
       ads: [],
-      categories: [],
+      socialMedias: [],
       first_ad: {},
       adsLoaded: false,
       influencersLoaded: false,
       search: "",
-      category: "",
-      range: 0
+      socialMedia: "",
+      range: 0,
+      followers: ''
     }
   },
 
@@ -49,16 +55,39 @@ export default  {
       this.influencers = await response.data;
       this.influencersLoaded = true;
     },
-    async filterByCategory(category) {
+    async filterBySocialMedia(social) {
       this.influencersLoaded = false;
-      let response = await fetchAPI.get(`/influencers?category=${category}`);
+      let response = await fetchAPI.get(`/influencers?social=${social}`);
       this.influencers = await response.data;
       this.influencersLoaded = true;
     },
 
-    async like(userId,event) {
+    async filterByFollowers() {
+
+      let followersFrom = 0;
+      let followersTo = 0;
+
+      if(this.followers && this.socialMedia) {
+
+        this.influencersLoaded = false;
+
+        let splitted = this.followers.split('-');
+        followersFrom = splitted[0];
+        followersTo = splitted[1];
+        let response = await fetchAPI.get(`/social-media/${this.socialMedia}?followersFrom=${followersFrom}&followersTo=${followersTo}`);
+        this.influencers = await response.data;
+        this.influencersLoaded = true;
+      }
+    },
+
+    async like(userId) {
+
 
       let client = new ClientJS();
+      let text = event.target.lastElementChild;
+      let heart = event.target.firstElementChild;
+
+
 
       try {
 
@@ -68,24 +97,31 @@ export default  {
           'user_id': userId,
         })
 
-        event.target.textContent++;
+        if(liked.status === 200) {
+          text.textContent++;
+          heart.classList = "bi bi-heart-fill text-danger";
+        }
+
 
       }catch (error) {
-        Toastify({
 
+        Toastify({
           text: "Ce profil est déjà aimé",
           position: "left",
           style: {
             background: "var(--bs-danger)",
           }
-
         }).showToast();
       }
 
     },
 
-  },
+    oneSocialMedia(arr) {
+      let result = arr.filter((item) => this.socialMedia === item.id);
+      return result.length ? result[0] : arr[0]
+    }
 
+  },
 
 }
 
@@ -94,29 +130,28 @@ export default  {
 <template>
 
 
-  <div id="carouselExampleCaptions" class="carousel slide" v-if="adsLoaded && ads.length">
+  <div id="carouselExampleCaptions" class="carousel slide" v-if="adsLoaded" data-bs-ride="carousel">
 
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleCaptions" :data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 0"></button>
-      <button type="button" data-bs-target="#carouselExampleCaptions" :data-bs-slide-to="index+1"  aria-current="true" aria-label="Slide 1" v-for="(ad, index) in ads"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" :data-bs-slide-to="0" class="active rounded-circle" style="width: 10px;height: 10px" aria-current="true" aria-label="Slide 0"></button>
+      <button type="button" data-bs-target="#carouselExampleCaptions" :data-bs-slide-to="index+1" class="rounded-circle"  aria-current="true" style="width: 10px;height: 10px" aria-label="Slide 1" v-for="(ad, index) in ads"></button>
     </div>
 
     <div class="carousel-inner">
 
-      <div class="carousel-item active">
-
-        <div class="card border-0 shadow-sm rounded-top-0 text-light" :style="{backgroundColor: first_ad['background_color'],backgroundImage: `url(http://127.0.0.1:8000/storage/${first_ad['background']})`}">
+      <div class="carousel-item active" >
+        <div class="card border-0  rounded-top-0 text-light" :style="{backgroundColor: first_ad['background_color'],backgroundImage: `url(http://127.0.0.1:8000/storage/${first_ad['background']})`}">
           <div class="card-body py-5">
             <div class="container">
               <div class="row align-items-center justify-content-between">
-                <div class="col-md-6 vstack gap-3 justify-content-center align-items-start">
+                <div class="col-md-6 vstack gap-3  text-center text-sm-start justify-content-center align-items-start order-sm-last order-md-first">
                   <span>{{first_ad['ad_owner']}}</span>
                   <h2 class="text-light display-6 fw-bolder">{{first_ad.title}}</h2>
                   <p>{{first_ad.description}}</p>
-                  <a :href="first_ad.url" target="_blank" class="btn btn-light px-5">Visit Ad</a>
+                  <a :href="first_ad.url" target="_blank" class="btn btn-light px-5">Visiter</a>
                 </div>
-                <div class="col-md-6">
-                  <img :src="`http://127.0.0.1:8000/storage/${first_ad['ad_owner_logo']}`" :alt="first_ad['ad_owner']" class="img-fluid w-100 h-100">
+                <div class="col-md-6 order-sm-first order-md-last">
+                  <div class="background-image-owner" :style="{backgroundImage: `url('http://127.0.0.1:8000/storage/${first_ad['ad_owner_logo']}')`}"></div>
                 </div>
               </div>
             </div>
@@ -126,18 +161,18 @@ export default  {
       </div>
       <div class="carousel-item" v-for="ad in ads">
 
-        <div class="card border-0 shadow-sm rounded-top-0 text-light" :style="{backgroundColor: first_ad['background_color'],backgroundImage: `url('http://127.0.0.1:8000/storage/${ad['background']}')`}">
+        <div class="card border-0 shadow-sm rounded-top-0 text-light" :style="{backgroundColor: ad['background_color'],backgroundImage: `url('http://127.0.0.1:8000/storage/${ad['background']}')`}">
           <div class="card-body py-5">
             <div class="container">
               <div class="row align-items-center justify-content-between">
-                <div class="col-md-6 vstack gap-3 justify-content-center align-items-start">
+                <div class="col-md-6 text-center vstack gap-3 justify-content-center align-items-start  order-sm-last order-md-first">
                   <span>{{ad['ad_owner']}}</span>
                   <h2 class="text-light display-6 fw-bolder">{{ad.title}}</h2>
                   <p>{{ad.description}}</p>
-                  <a :href="ad.url" target="_blank" class="btn btn-light px-5">Visit Ad</a>
+                  <a :href="ad.url" target="_blank" class="btn btn-light px-5">Visiter</a>
                 </div>
-                <div class="col-md-6">
-                  <img :src="`http://127.0.0.1:8000/storage/${ad['ad_owner_logo']}`" :alt="ad['ad_owner']" class="img-fluid w-100 h-100">
+                <div class="col-md-6 order-sm-first order-md-last">
+                  <div class="background-image-owner" :style="{backgroundImage: `url('http://127.0.0.1:8000/storage/${ad['ad_owner_logo']}')`}"></div>
                 </div>
               </div>
             </div>
@@ -158,36 +193,49 @@ export default  {
     </button>
   </div>
 
-  <div class="container my-5">
+  <div class="container-fluid  px-md-5 me-5 my-5 w-100">
 
-    <h1 class="mb-5">Influencers</h1>
+    <h1 class="mb-5 text-center">Choisir votre Influenceur</h1>
 
 
-      <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
+      <div class="d-flex align-items-center justify-content-md-center  justify-content-lg-between  flex-wrap">
 
-        <div class="d-flex align-items-center position-relative">
-          <i class="bi bi-search position-absolute top-50 translate-middle-y"></i>
-          <input type="text" v-model="search"  @input="filterBySearch(search)" class="ps-4 d-block form-control form-control bg-transparent  border-0" placeholder="Search An Influncer">
+
+<!--        <div class="d-flex align-items-center position-relative mb-lg-0 mb-3">-->
+<!--          <i class="bi bi-search position-absolute top-50 ms-3 translate-middle-y text-primary"></i>-->
+<!--          <input type="text" v-model="search"  @input="filterBySearch(search)" class="ps-5 d-block  form-control" placeholder="Rechercher Influenceur">-->
+<!--        </div>-->
+
+
+        <div class="btn-group align-items-center flex-wrap " role="group" aria-label="Basic radio toggle button group" style="height: 48px" v-if="socialMedias.length">
+          <input type="radio" class="btn-check" name="social-media"  id="tout" autocomplete="off" :value="''" @change="filterBySocialMedia(socialMedia)" v-model="socialMedia">
+          <label class="btn btn-outline-light" for="tout" >
+            <i class="bi bi-people-fill" style="font-size: 17px" ></i> Tout
+          </label>
+            <template  v-for="social in socialMedias">
+              <input type="radio" class="btn-check" name="social-media" :id="social.name.toLowerCase()" autocomplete="off" :value="social.id" @change="filterBySocialMedia(socialMedia)" v-model="socialMedia">
+              <label class="btn btn-outline-light" :for="social.name.toLowerCase()" >
+                <img :src="`http://127.0.0.1:8000/storage/${social.logo}`" :alt="social.name" width="25" height="25" > {{social.name}}
+              </label>
+            </template>
+
         </div>
 
-        <div>
-          <select class="form-select" @change="filterByCategory(category)" v-model="category">
-            <option value="" selected>All</option>
-            <option :value="category.id" v-for="category in categories">{{category.name}}</option>
-          </select>
-        </div>
+        <select class="form-select"  v-model="followers" @change="filterByFollowers(followers)" v-if="this.socialMedia"  style="width: 300px;height: 40px">
+          <option value="" selected disabled >Nombre Abonnés</option>
+          <option value="10000-50000" class="fw-bold" selected>10k - 50k</option>
+          <option value="50000-100000" class="fw-bold" selected>50k - 100k</option>
+          <option value="100000-500000" class="fw-bold" selected>100k - 500k</option>
+          <option value="500000-1000000" class="fw-bold" selected>500k - 1M</option>
+          <option value="1000000-100000000" class="fw-bold" selected>1M+</option>
+        </select>
 
       </div>
 
 
-      <div class="d-flex flex-column">
-        <label for="" class="form-label">0 to {{range}}</label>
-        <input type="range" class="form-range w-50" v-model="range" min="0" max="100000" step="0.5" >
-      </div>
+    <div class="row gy-5 row-cols-sm-2 row-cols-md-2 row-cols-lg-4 row-cols-xl-5 my-3">
 
-    <div class="row mt-5 g-5">
-
-      <div class="col-md-6 col-lg-4 col-xl-3" v-for="influencer in getInfluncers.data" v-if="influencersLoaded">
+      <div  v-for="influencer in getInfluncers.data" v-if="influencersLoaded" >
 
         <div class="card border-0 rounded-4 overflow-hidden">
 
@@ -196,10 +244,10 @@ export default  {
               <img class="card-img-top" :src="influencer.avatar['medium']" :alt="influencer.last_name">
 
 
-            <span class="position-absolute likes start-50 w-100 d-flex align-items-center justify-content-center bottom-0 text-white translate-middle-x z-3 fs-5" >
-              <i class="bi bi-heart me-2 text-danger"></i>
-              <span class="like" @click="like(influencer.id)">
-                {{influencer.likes}}
+            <span class="position-absolute likes start-50 w-100 h-100 d-flex align-items-end justify-content-center bottom-0 text-white translate-middle-x z-3 fs-4"  @click.once="like(influencer.id)">
+              <i class="bi bi-heart "></i>
+              <span class="like d-flex align-items-end justify-content-center ms-2" >
+                {{influencer['likes']}}
               </span>
             </span>
 
@@ -207,39 +255,39 @@ export default  {
 
           <div class="card-body text-center">
             <router-link :to="`/profile/${influencer.username}`" class="text-decoration-none">
-              <h5 class="card-title text-capitalize ">{{influencer.first_name + ' ' + influencer.last_name}}</h5>
-              <p class="card-text mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+              <h5 class="card-title text-capitalize mb-3">{{influencer.first_name + ' ' + influencer.last_name}}</h5>
+              <p class="card-text mb-0" style="height: 72px">{{influencer.bio}}</p>
             </router-link>
 
-            <div class="buttons d-flex flex-column" v-if="influencer['social_medias'].length">
-              <div class="dropdown mt-4">
-                <button class="btn btn-info d-block px-4 mx-auto dropdown-toggle rounded-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <a class="text-decoration-none text-white" :href="influencer['social_medias'][0]['url'] + influencer['social_medias'][0].pivot.url" target="_blank" >
-                    <i :class="`bi bi-${influencer['social_medias'][0].name.toLowerCase()}`"></i>
-                    {{HRNumbers.toHumanString(influencer['social_medias'][0].pivot.followers)}}
+            <div class="buttons  d-flex flex-column" v-if="influencer['social_medias'].length">
+              <div class="mt-4">
+                <button class="btn btn-info d-block rounded-pill mx-auto dropdown-toggle rounded-2 d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+                  <a class="text-decoration-none text-white d-inline-flex align-items-center"  target="_blank" >
+                      <img :src="`http://127.0.0.1:8000/storage/${oneSocialMedia(influencer['social_medias']).logo}`" alt="" width="20" height="20">
+                      <span class="px-4 fw-bold">{{HRNumbers.toHumanString(oneSocialMedia(influencer['social_medias']).pivot.followers )}}</span>
+
                   </a>
                 </button>
                 <ul class="dropdown-menu">
                   <li>
-                    <a class="dropdown-item" :href="social.url + social.pivot.url" target="_blank" v-for="social in influencer['social_medias']">
-                      <i :class="`bi bi-${social.name.toLowerCase()}`"></i>
-                      {{HRNumbers.toHumanString(social.pivot.followers)}} Followers
+                    <a class="dropdown-item d-flex align-items-center" :href="social.url + social.pivot.url" target="_blank" v-for="social in influencer['social_medias']">
+                      <img :src="`http://127.0.0.1:8000/storage/${social.logo}`" :alt="social.name" width="20" height="20" class="me-2">
+                      {{HRNumbers.toHumanString(social.pivot.followers)}} Abonnées
                     </a>
                   </li>
                 </ul>
               </div>
+
             </div>
 
           </div>
         </div>
-
-
       </div>
 
-      <div class="col-md-6 col-lg-4 col-xl-3" v-else-if="!influencersLoaded" v-for="item in 8">
+      <div class="" v-else-if="!influencersLoaded" v-for="item in 8">
 
         <div class="card border-0 shadow rounded-4 text-center">
-          <div style="height: 288px" class="bg-secondary rounded-top-4 "></div>
+          <div style="height: 400px" class="bg-secondary rounded-top-4 "></div>
           <div class="card-body">
             <h5 class="card-title placeholder-glow">
               <span class="placeholder col-6"></span>
@@ -253,11 +301,16 @@ export default  {
 
       </div>
 
-      <div v-else-if="!influencers.length">
-        <h1>No Influencers</h1>
-      </div>
+
 
     </div>
+
+
+<!--    <nav aria-label="Page navigation example" class="my-5" v-if="influencers['meta']['links']">-->
+<!--      <ul class="pagination pagination-lg justify-content-center">-->
+<!--        <li class="page-item"  v-for="link in influencers['meta']['links']"><a :class="`page-link ${link['active'] ? 'active' : ''}`" href="#">{{link['label']}}</a></li>-->
+<!--      </ul>-->
+<!--    </nav>-->
 
     </div>
 
@@ -268,6 +321,14 @@ export default  {
 
 <style scoped>
 
+
+h1 {
+  height: 40vh !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6vw;
+}
 
 .overlay::before {
   content: "";
@@ -282,54 +343,30 @@ export default  {
   border-radius:  1rem 1rem 0 0;
 }
 
-input[type=text] {
-  caret-color: var(--bs-warning);
-  color: #fff;
-  font-size: 20px;
-  border-radius: 0;
-  transition: .3s;
-  border-bottom: 1px solid transparent !important;
-}
-
-input[type=text]:focus {
-  box-shadow: none;
-  border-bottom-color: #fff !important;
-
-}
-
-input[type=text]::placeholder {
-  color: white;
-  opacity: .4;
-}
-
-.carousel,
-.carousel-inner {
-  min-height: 50vh;
-}
-
-.avatar {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  object-position: top;
-}
 
 
 .card {
-  box-shadow: 10px 15px 25px 0 rgba(13, 110, 253, 0.09);
+  box-shadow: 10px 15px 25px 0 rgba(13, 110, 253, 0.1);
   transition: .3s;
   cursor: pointer;
 }
 
-.card:hover {
-  transform: translateY(-5px);
+@media screen and (max-width: 767px) {
+  h1 {
+    font-size: 12vw;
+  }
 }
 
-
-.form-floating > .form-control:focus ~ label::after {
-  background-color: transparent !important;
+.background-image-owner {
+  width: 100%;
+  height: 70vh;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
-
+.carousel-item,.carousel-inner {
+  height: 70vh;
+}
 
 </style>

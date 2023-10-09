@@ -66,7 +66,7 @@ export default  {
 
   <textarea :type="type" :id="id" :class="`form-control bg-white bg-opacity-50 border-0  p-3 border-bottom border-dark-subtle rounded-0 mb-1 ${error ? 'error': ''}`"  :placeholder="`Enter ${name}`" @input="input" :value="value" v-if="type === 'textarea'">{{value}}</textarea>
 
-  <div class="text-danger" v-if="error">{{error}}</div>
+  <div class="text-danger ms-2" v-if="error">{{error}}</div>
 
 </template>
 
@@ -85,5 +85,16 @@ input:focus,select:focus,textarea:focus  {
   border-bottom-color: var(--bs-danger) !important;
 }
 
+.form-floating > .form-control:focus ~ label::after,
+.form-floating > .form-control ~ label::after
+{
+  background: transparent !important;
+
+}
+
+
+.form-floating > label {
+  padding: 0.75rem 0.75rem;
+}
 
 </style>

@@ -3,21 +3,17 @@
 </script>
 
 <template>
-    <div class="container d-flex justify-content-between flex-wrap">
+    <div class="container d-flex justify-content-center justify-content-md-between align-items-center flex-wrap">
 
-      <p class="mb-0">Tous réservés par PickADS © 2023</p>
+      <p class="mb-3 mb-md-0">Tous réservés par PickADS © 2023</p>
 
-      <div class="social-media d-flex flex-wrap justify-content-center justify-content-lg-start">
+      <div class="social-media d-flex flex-wrap justify-content-center justify-content-lg-start ms-4 ms-md-0">
         <a href="#">
           <i class="bi bi-facebook"></i>
         </a>
 
         <a href="#">
-          <i class="bi bi-twitter"></i>
-        </a>
-
-        <a href="#">
-          <i class="bi bi-youtube"></i>
+          <i class="bi bi-twitter-x"></i>
         </a>
 
         <a href="#">
@@ -25,6 +21,7 @@
         </a>
 
       </div>
+
     </div>
 </template>
 

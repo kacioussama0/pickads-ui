@@ -1,16 +1,16 @@
 <template>
 
 
-  <div class="offcanvas offcanvas-end bg-dark w-100 text-center"  ref="offCanvas" tabindex="-1" id="offcanvasWithBothOptions"  aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas offcanvas-end bg-dark w-100 text-center" ref="offCanvas" tabindex="-1" id="offcanvasWithBothOptions"  aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"></h5>
+      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel" ></h5>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body py-3 p-0" >
 
         <ul class="navbar-nav mx-auto mb-lg-0  justify-content-center">
-          <li :class="`nav-item  ${item.name.toLowerCase()}`" v-for="item in navList" style="letter-spacing: 1px"  @click="hideThisCanvas">
-            <router-link class="nav-link active  text-white" aria-current="page"   :to="item.path">{{item.name}}</router-link>
+          <li :class="`nav-item  ${item.name.toLowerCase()}`" v-for="item in navList" style="letter-spacing: 1px"   >
+            <router-link class="nav-link active  text-white" aria-current="page" :to="item.path"  @click.prevent="hideThisCanvas">{{item.name}}</router-link>
           </li>
 
           <div class="dropdown" v-if="user">
@@ -21,19 +21,19 @@
             </a>
 
             <ul class="dropdown-menu">
-              <router-link  aria-current="page"  to="/dashboard" class="dropdown-item">Profile</router-link>
-              <a class="dropdown-item" aria-current="page"  href="javascript:void(0)" @click="logout">Logout</a>
+              <router-link  aria-current="page"  to="/dashboard" class="dropdown-item"  @click.prevent="hideThisCanvas">Profile</router-link>
+              <a class="dropdown-item" aria-current="page"  href="javascript:void(0)" @click="logout" >Logout</a>
             </ul>
 
           </div>
 
 
           <li class="nav-item" v-if="!user">
-            <router-link class="nav-link active  text-white" aria-current="page"  to="/login" >Login</router-link>
+            <router-link class="nav-link active  text-white" aria-current="page"  to="/login"  @click.prevent="hideThisCanvas">Login</router-link>
           </li>
 
           <li class="nav-item " v-if="!user">
-            <router-link class="nav-link active  text-white " aria-current="page"  to="/register" >Register</router-link>
+            <router-link class="nav-link active  text-white " aria-current="page"  to="/register"  @click.prevent="hideThisCanvas" >Register</router-link>
           </li>
 
         </ul>
@@ -64,13 +64,14 @@
     </div>
 
 
-  <nav class="navbar navbar-expand-xl">
+  <nav class="navbar navbar-expand-xxl bg-dark border-bottom border-1 border-opacity-10 border-light py-3">
 
-    <div class="container">
+    <div class="container-fluid  mx-0 px-md-5">
 
       <router-link class="navbar-brand m-0 p-0" to="/">
         <img src="/logo-white.svg" alt="pickads-logo" class="nav-logo">
       </router-link>
+
 
 
       <button class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
@@ -79,15 +80,25 @@
 
 
       <div class="collapse navbar-collapse">
-        <ul class="navbar-nav mx-auto mb-lg-0 flex-grow-1  justify-content-center">
-          <li :class="`nav-item  ${item.name.toLowerCase()}`" v-for="item in navList" style="letter-spacing: 1px">
+        <ul class="navbar-nav mx-auto mb-lg-0 flex-grow-1 justify-content-center">
+          <li :class="`nav-item  ${item.name.toLowerCase()}`" v-for="item in navList" style="letter-spacing: 1px"  >
 
-            <router-link class="nav-link active  text-white" aria-current="page"   :to="item.path">
+            <router-link class="nav-link active  text-white" aria-current="page"   :to="item.path" >
               <i :class="item.icon"></i>
               {{item.name}}
             </router-link>
           </li>
+
+
         </ul>
+
+
+<!--        <div class="d-flex align-items-center position-relative  ms-3" v-if="this.$route.path == '/influencers'">-->
+<!--          <i class="bi bi-search position-absolute top-50 ms-3 translate-middle-y text-white"></i>-->
+<!--          <input type="text" v-model="search"  @input="filterBySearch(search)" class="ps-5 d-block bg-white bg-opacity-10 rounded-5 form-control" placeholder="Rechercher Influenceur">-->
+<!--        </div>-->
+
+
 
         <ul class="navbar-nav mx-auto mb-lg-0  justify-content-center">
 
@@ -158,11 +169,13 @@ export default  {
           path: '/contact',
           icon: 'bi bi-envelope'
         },
-      ]
+      ],
+
     }
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(['user']),
+
   },
 
   methods: {
@@ -171,10 +184,9 @@ export default  {
       this.$store.dispatch('user',null)
       this.$router.push('/login')
     },
-
     hideThisCanvas(){
-      let myOffcanvas = this.$refs.offCanvas;
-      let bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+      let myOffcanvas = document.getElementById('offcanvasWithBothOptions')
+      let bsOffcanvas = bootstrap.Offcanvas.getInstance(myOffcanvas);
       bsOffcanvas.hide();
     }
   }
@@ -202,6 +214,19 @@ export default  {
   box-shadow: none;
 }
 
+
+input[type=text] {
+  caret-color: var(--bs-warning);
+  color: #ffffff;
+
+  transition: .3s;
+}
+
+input[type=text]::placeholder {
+  color: #ffff !important;
+}
+
+
 @media screen and (max-width : 991px) {
   .nav-link {
     font-size: 30px;
@@ -216,7 +241,6 @@ export default  {
 
 
 .social-media, .dropdown {
-  padding: 20px;
   text-align: center;
 }
 

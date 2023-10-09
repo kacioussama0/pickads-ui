@@ -83,7 +83,7 @@
                         <img src="/logo-white.svg" alt=""  class="rounded-circle profile-photo" width="150" height="150">
                           <input id="avatar"  type="file" class="w-100 h-100 position-absolute hiding" name="avatar" accept="image/*"/>
                       </span>
-          <c-button title="Update Avatar" id="submit-image" @click="updateAvatar" :status="avatarFormStatus" disabled/>
+          <c-button title="Update Avatar" id="submit-image" :loading="avatarLoadingUpdate" @click="updateAvatar" :status="avatarFormStatus" disabled/>
         </form>
       </tab-content>
     </form-wizard>
@@ -155,12 +155,13 @@ export default  {
       password: {value:'',valid: false},
       passwordConfirmation: {value:'',valid: false},
       avatarFormStatus: '',
+      avatarLoadingUpdate:false
     }
   },
   methods: {
 
     updateAvatar() {
-
+      this.avatarLoadingUpdate = true;
       let file = document.querySelector('#avatar').files[0];
       let form = new FormData();
       form.append("avatar",file);
@@ -169,9 +170,10 @@ export default  {
           'Authorization': "Bearer " + localStorage.getItem('token')
         }
       }).then(response => {
-        this.avatarFormStatus = 'success'
+        this.avatarFormStatus = 'success';
+        this.avatarLoadingUpdate = false;
       }).catch(error => {
-        this.avatarFormStatus = 'failed'
+        this.avatarFormStatus = 'failed';
       })
 
     },

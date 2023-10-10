@@ -66,7 +66,7 @@ export default  {
     },
     async filterBySocialMedia(social) {
       this.influencersLoaded = false;
-      let response = await fetchAPI.get(`/influencers?social=${social}`);
+      let response = await fetchAPI.get(`/social-media/${social}`);
       this.influencers = await response.data;
       this.influencersLoaded = true;
     },

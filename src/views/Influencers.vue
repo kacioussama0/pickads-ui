@@ -5,10 +5,10 @@ import HRNumbers from 'human-readable-numbers';
 import {ClientJS} from "clientjs";
 import Toastify from 'toastify-js'
 import {VueProgressbar} from "@jambonn/vue-next-progressbar";
+import {MY_URL} from "../router.js";
 
 
 export default  {
-
 
 
   computed: {
@@ -50,6 +50,11 @@ export default  {
   },
 
   methods: {
+
+    MY_URL() {
+      return MY_URL
+    },
+
     async filterBySearch(search) {
       let searched = this.$refs.search;
       this.influencersLoaded = false;
@@ -144,7 +149,7 @@ export default  {
     <div class="carousel-inner">
 
       <div class="carousel-item active" >
-        <div class="card border-0  rounded-top-0 text-light" :style="{backgroundColor: first_ad['background_color'],backgroundImage: `url(http://127.0.0.1:8000/storage/${first_ad['background']})`}">
+        <div class="card border-0  rounded-top-0 text-light" :style="{backgroundColor: first_ad['background_color'],backgroundImage: `url(${MY_URL()}/storage/${first_ad['background']})`}">
           <div class="card-body py-5">
             <div class="container">
               <div class="row align-items-center justify-content-between">
@@ -155,7 +160,7 @@ export default  {
                   <a :href="first_ad.url" target="_blank" class="btn btn-light px-5">Visiter</a>
                 </div>
                 <div class="col-md-6 order-sm-first order-md-last d-none d-lg-flex">
-                  <div class="background-image-owner" :style="{backgroundImage: `url('http://127.0.0.1:8000/storage/${first_ad['ad_owner_logo']}')`}"></div>
+                  <div class="background-image-owner" :style="{backgroundImage: `url('${MY_URL()}/storage/${first_ad['ad_owner_logo']}')`}"></div>
                 </div>
               </div>
             </div>
@@ -165,7 +170,7 @@ export default  {
       </div>
       <div class="carousel-item" v-for="ad in ads">
 
-        <div class="card border-0 shadow-sm rounded-top-0 text-light" :style="{backgroundColor: ad['background_color'],backgroundImage: `url('http://127.0.0.1:8000/storage/${ad['background']}')`}">
+        <div class="card border-0 shadow-sm rounded-top-0 text-light" :style="{backgroundColor: ad['background_color'],backgroundImage: `url('${MY_URL()}/storage/${ad['background']}')`}">
           <div class="card-body py-5">
             <div class="container">
               <div class="row align-items-center justify-content-between">
@@ -176,7 +181,7 @@ export default  {
                   <a :href="ad.url" target="_blank" class="btn btn-light px-5">Visiter</a>
                 </div>
                 <div class="col-md-6 order-sm-first order-md-last d-none d-lg-flex">
-                  <div class="background-image-owner" :style="{backgroundImage: `url('http://127.0.0.1:8000/storage/${ad['ad_owner_logo']}')`}"></div>
+                  <div class="background-image-owner" :style="{backgroundImage: `url('${MY_URL()}/storage/${ad['ad_owner_logo']}')`}"></div>
                 </div>
               </div>
             </div>
@@ -220,7 +225,7 @@ export default  {
             <template  v-for="social in socialMedias">
               <input type="radio" class="btn-check" name="social-media" :id="social.name.toLowerCase()" autocomplete="off" :value="social.id" @change="filterBySocialMedia(socialMedia)" v-model="socialMedia">
               <label class="btn btn-outline-light rounded-0 m-0" :for="social.name.toLowerCase()" >
-                <img :src="`http://127.0.0.1:8000/storage/${social.logo}`" :alt="social.name" width="25" height="25" > {{social.name}}
+                <img :src="`${MY_URL()}/storage/${social.logo}`" :alt="social.name" width="25" height="25" > {{social.name}}
               </label>
             </template>
         </div>
@@ -292,7 +297,7 @@ export default  {
               <div class="mt-4">
                 <button class="btn btn-info d-block rounded-pill mx-auto dropdown-toggle rounded-2 d-flex align-items-center" type="button" data-bs-toggle="dropdown">
                   <a class="text-decoration-none text-white d-inline-flex align-items-center"  target="_blank" >
-                      <img :src="`http://127.0.0.1:8000/storage/${oneSocialMedia(influencer['social_medias']).logo}`" alt="" width="20" height="20">
+                      <img :src="`${MY_URL()}/storage/${oneSocialMedia(influencer['social_medias']).logo}`" alt="" width="20" height="20">
                       <span class="px-4 fw-bold">{{HRNumbers.toHumanString(oneSocialMedia(influencer['social_medias']).pivot.followers )}}</span>
 
                   </a>
@@ -300,7 +305,7 @@ export default  {
                 <ul class="dropdown-menu">
                   <li>
                     <a class="dropdown-item d-flex align-items-center" :href="social.url + social.pivot.url" target="_blank" v-for="social in influencer['social_medias']">
-                      <img :src="`http://127.0.0.1:8000/storage/${social.logo}`" :alt="social.name" width="20" height="20" class="me-2">
+                      <img :src="`${MY_URL()}/storage/${social.logo}`" :alt="social.name" width="20" height="20" class="me-2">
                       {{HRNumbers.toHumanString(social.pivot.followers)}} Abonnées
                     </a>
                   </li>

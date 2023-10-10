@@ -5,7 +5,7 @@ import '@jambonn/vue-next-progressbar/lib/vue-next-progressbar.min.css';
 import App from './App.vue';
 import {store} from "./store.js";
 import bootstrap from 'bootstrap';
-
+import 'bootstrap/dist/js/bootstrap.js';
 
 // Start Assets
 import './style.css';

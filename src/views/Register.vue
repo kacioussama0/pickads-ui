@@ -66,7 +66,7 @@
           <div class="input-group mb-3" v-for="(item,index) in socialMedias" :key="item.id">
             <label class="visually-hidden" :for="item.name">username</label>
             <div class="input-group-text rounded-start-2">
-              <img :src="`${MY_URL()}/storage/${item.logo}`" :alt="item.name" width="25" height="25"  >
+              <img :src="`http://127.0.0.1:8000/storage/${item.logo}`" :alt="item.name" width="25" height="25"  >
             </div>
             <input type="text" class="form-control p-3" :id="item.name" v-model="userSocial[item.id]"  placeholder="Votre Lien">
 
@@ -94,16 +94,167 @@
 
 
 <script>
+import {FormWizard,TabContent} from "vue3-form-wizard";
+import 'vue3-form-wizard/dist/style.css'
+import CInput from "../components/CInput.vue";
+import {fetchAPI} from "../axios.js";
+import CButton from "../components/CButton.vue";
 import {MY_URL} from "../router.js";
-import {defineComponent} from "vue";
 
-export default defineComponent({
+export default  {
+
+  components: {
+    CButton,
+    CInput,
+    FormWizard,
+    TabContent
+  },
+
+  async created() {
+    const categories = await fetchAPI.get('categories');
+    const socialMedias = await fetchAPI.get('social-media');
+    this.categories = categories.data.map((category)=> {
+      return {
+        title: category.name,
+        value: category.id,
+
+      }
+    })
+    this.socialMedias = socialMedias.data;
+
+  },
+
+  mounted() {
+    document.querySelector('#avatar').onchange = function () {
+      let reader = new FileReader();
+
+      reader.addEventListener('load',()=> {
+        const image = reader.result;
+        document.querySelector('.profile-photo').setAttribute('src',image);
+        document.querySelector('#submit-image').removeAttribute('disabled');
+      })
+
+      reader.readAsDataURL(this.files[0]);
+    }
+  },
+
+
+
+  data() {
+    return {
+      categories: [],
+      socialMedias: [],
+      userSocial: {},
+      userFollowers: {},
+      first_name: {value:'',valid: false},
+      last_name: {value:'',valid: false},
+      date_of_birth: {value:'',valid: false},
+      username: {value:'',valid: false},
+      email: {value:'',valid: false},
+      category: {value:'',valid: false},
+      gender: {value:'',valid: false},
+      description: {value:'',valid: true},
+      mobile: {value:'',valid: true},
+      password: {value:'',valid: false},
+      passwordConfirmation: {value:'',valid: false},
+      avatarFormStatus: '',
+      avatarLoadingUpdate:false
+    }
+  },
   methods: {
+
+    updateAvatar() {
+      this.avatarLoadingUpdate = true;
+      let file = document.querySelector('#avatar').files[0];
+      let form = new FormData();
+      form.append("avatar",file);
+      fetchAPI.post('user/update/avatar',form,{
+        headers: {
+          'Authorization': "Bearer " + localStorage.getItem('token')
+        }
+      }).then(response => {
+        this.avatarFormStatus = 'success';
+        this.avatarLoadingUpdate = false;
+      }).catch(error => {
+        this.avatarFormStatus = 'failed';
+      })
+
+    },
+
+    onComplete() {
+      this.$router.push('/influencers')
+    },
+    update(data) {
+      this[data.name] = data
+    },
+
+    onValidate() {
+       return this.first_name.valid && this.last_name.valid && this.email.valid && this.date_of_birth.valid && this.category.valid && this.gender.valid && this.mobile.valid && this.description.valid && this.username.valid && this.password.valid && this.passwordConfirmation.valid
+    },
+
+    async socialValidate() {
+
+      if(this.userSocialMedia.length >= 1) {
+          try {
+            const response = await fetchAPI.post('register',{
+              'first_name': this.first_name.value,
+              'last_name': this.last_name.value,
+              'username': this.username.value,
+              'email': this.email.value,
+              'category_id': this.category.value,
+              'password': this.password.value,
+              'password_confirmation': this.password.value,
+              'gender': this.gender.value,
+              'social_media': JSON.stringify(this.userSocialMedia),
+              'date_of_birth': this.date_of_birth.value,
+              'description': this.description.value,
+            })
+
+            localStorage.setItem('token',response.data['access_token']);
+            this.$store.dispatch('user',response.data.user)
+
+            return true
+
+          }catch (error) {
+            console.log(error)
+          }
+
+      }
+
+      return false;
+    },
     MY_URL() {
       return MY_URL
     }
+
+  },
+
+  computed: {
+    userSocialMedia() {
+
+      let arr = [];
+
+      for(let item in this.userSocial) {
+        for(let i in this.userFollowers) {
+          if(i === item) {
+            arr.push({
+              "social_media_id": Number(i),
+              "info": {
+                "followers": this.userFollowers[i],
+                "url": this.userSocial[i]
+              }
+            })
+          }
+        }
+      }
+      return arr
+
+      }
   }
-})
+
+
+}
+
 
 </script>
 

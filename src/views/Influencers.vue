@@ -139,7 +139,7 @@ export default  {
 <template>
 
 
-  <div id="carouselExampleCaptions" class="carousel slide" v-if="adsLoaded" data-bs-ride="carousel">
+  <div id="carouselExampleCaptions" class="carousel slide" v-if="ads.length" data-bs-ride="carousel">
 
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleCaptions" :data-bs-slide-to="0" class="active rounded-circle" style="width: 10px;height: 10px" aria-current="true" aria-label="Slide 0"></button>

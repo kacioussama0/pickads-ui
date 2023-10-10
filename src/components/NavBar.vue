@@ -1,7 +1,7 @@
 <template>
 
 
-  <div class="offcanvas offcanvas-end bg-dark w-md-50 text-center" ref="offCanvas" tabindex="-1" id="offcanvasWithBothOptions"  aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas offcanvas-end bg-dark w-md-50 text-center " ref="offCanvas" tabindex="-1" id="offcanvasWithBothOptions"  aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"></h5>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -135,7 +135,7 @@
 
 <script>
 import {mapGetters} from "vuex";
-
+import {Offcanvas} from "bootstrap";
 
 export default  {
   data() {
@@ -178,7 +178,7 @@ export default  {
     },
     hideThisCanvas(){
       let myOffcanvas = document.getElementById('offcanvasWithBothOptions')
-      let bsOffcanvas = bootstrap.Offcanvas.getInstance(myOffcanvas);
+      let bsOffcanvas = Offcanvas.getInstance(myOffcanvas);
       bsOffcanvas.hide();
     }
   }

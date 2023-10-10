@@ -6,6 +6,7 @@ import {ClientJS} from "clientjs";
 import Toastify from 'toastify-js'
 import {VueProgressbar} from "@jambonn/vue-next-progressbar";
 import {MY_URL} from "../router.js";
+import {Modal} from "bootstrap";
 
 export default  {
 
@@ -60,7 +61,7 @@ export default  {
       let response = await fetchAPI.get(`/influencers?search=${search}`);
       this.influencers = await response.data;
       this.influencersLoaded = true;
-      bootstrap.Modal.getInstance(searched).hide();
+      Modal.getInstance(searched).hide();
       this.search = '';
     },
     async filterBySocialMedia(social) {

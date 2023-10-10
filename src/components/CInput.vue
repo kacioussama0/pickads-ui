@@ -52,21 +52,21 @@ export default  {
 <!--  <label :for="id" class="my-1">{{name}} <span class="text-danger" v-if="rules.required">*</span></label>-->
 
 
-  <div class="form-floating"  v-if="type !== 'textarea' && type !== 'select'">
-    <input :type="type" :id="id"  :class="`form-control bg-white bg-opacity-50 border-0 p-3 border-bottom border-dark-subtle rounded-0 mb-1 ${error ? 'error': ''}`"  :placeholder="`Enter ${name}`" @input="input" :value="value" />
-    <label :for="id">{{name}}</label>
+  <div class="form-floating" v-if="type !== 'textarea' && type !== 'select'">
+    <input :type="type" :id="id"  :class="`form-control bg-white bg-opacity-50 border-0    border-bottom border-dark-subtle  mb-1 ${error ? 'error': ''}`"  :placeholder="`Enter ${name}`" @input="input" :value="value" />
+    <label :for="id" class="">{{name}}</label>
   </div>
 
 
 
-  <select  :id="id" :class="`form-select bg-white bg-opacity-50 border-0 border-bottom p-3 border-dark-subtle rounded-0 mb-1 ${error ? 'error': ''}`"  @change="input" :value="value" v-if="type === 'select'">
+  <select  :id="id" :class="`form-select bg-white bg-opacity-50 border-0 border-bottom p-3 border-dark-subtle  mb-1 ${error ? 'error': ''}`"  @change="input" :value="value" v-if="type === 'select'">
     <option value="" disabled>Choose {{name}}</option>
     <option :value="option.value" :selected="value === option.value" v-for="option in options" >{{option.title}}</option>
   </select>
 
-  <textarea :type="type" :id="id" :class="`form-control bg-white bg-opacity-50 border-0  p-3 border-bottom border-dark-subtle rounded-0 mb-1 ${error ? 'error': ''}`"  :placeholder="`Enter ${name}`" @input="input" :value="value" v-if="type === 'textarea'">{{value}}</textarea>
+  <textarea :type="type" :id="id" :class="`form-control bg-white bg-opacity-50 border-0  border-bottom border-dark-subtle mb-1 ${error ? 'error': ''}`"  :placeholder="`Enter ${name}`" @input="input" :value="value" v-if="type === 'textarea'">{{value}}</textarea>
 
-  <div class="text-danger ms-2" v-if="error">{{error}}</div>
+  <div class="text-danger ms-2" v-if="error">{{error}}*</div>
 
 </template>
 
@@ -75,10 +75,12 @@ export default  {
 
 input,select,textarea {
   transition: .3s;
+
 }
 
 input:focus,select:focus,textarea:focus  {
   box-shadow: none;
+
 }
 
 .error {
@@ -94,7 +96,7 @@ input:focus,select:focus,textarea:focus  {
 
 
 .form-floating > label {
-  padding: 0.75rem 0.75rem;
+  padding: 0.75rem 0.75rem ;
 }
 
 </style>

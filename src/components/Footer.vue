@@ -21,7 +21,6 @@
         </a>
 
       </div>
-
     </div>
 </template>
 
@@ -32,5 +31,6 @@
   margin-right: 20px;
   font-size: 25px;
 }
+
 
 </style>

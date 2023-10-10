@@ -66,10 +66,12 @@
 
           <div class="input-group mb-3" v-for="(item,index) in socialMedias" :key="item.id">
             <label class="visually-hidden" :for="item.name">username</label>
-            <div class="input-group-text">{{item.url}}</div>
-            <input type="text" class="form-control p-3" :id="item.name" v-model="userSocial[item.id]"  placeholder="username">
+            <div class="input-group-text rounded-start-2">
+              <img :src="`http://127.0.0.1:8000/storage/${item.logo}`" :alt="item.name" width="25" height="25"  >
+            </div>
+            <input type="text" class="form-control p-3" :id="item.name" v-model="userSocial[item.id]"  placeholder="Votre Lien">
 
-            <input type="number" class="form-control" :id="item.name"  v-model="userFollowers[item.id]"   placeholder="followers">
+            <input type="number" class="form-control" :id="item.name"  v-model="userFollowers[item.id]"   placeholder="Abonnés">
           </div>
 
 

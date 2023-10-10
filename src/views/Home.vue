@@ -13,7 +13,7 @@
            Avec <span class="fw-bolder text-warning">PickAds</span>
          </h1>
 
-         <p class="text-light fs-2 fw-light text-xl-center">D'un simple clic, Vous pouvez choisir l'un des <span class="text-warning">influenceurs</span> sur les réseaux sociaux pour créer votre <span class="text-warning">publicité</span>.</p>
+         <p class="text-light fs-4 fw-lighter text-xl-center">D'un simple clic, Vous pouvez choisir l'un des <span class="text-warning">influenceurs</span> sur les réseaux sociaux pour créer votre <span class="text-warning">publicité</span>.</p>
 
          <router-link to="/influencers" class="btn btn-warning px-5 py-3 fw-bolder shadow-warning mx-auto mx-lg-0 mb-5">
            Commancer Maintenant
@@ -23,7 +23,7 @@
 
          <div class="mx-md-auto text-center text-lg-start  mx-lg-0 mb-5">
            <h3 class="mb-4">Bientôt sur</h3>
-             <span>
+             <span class="d-lg-flex px-0">
                <img src="../assets/imgs/googleplay_fr.png" alt="google play" class="me-1">
                <img src="../assets/imgs/appstore_fr.png" alt="apple store" class="">
             </span>

@@ -3,14 +3,24 @@
 import NavBar from "./components/NavBar.vue";
 import Footer from "./components/Footer.vue";
 import {fetchAPI} from "./axios.js";
+import {VueProgressbar} from "@jambonn/vue-next-progressbar";
 
 export default  {
 
+
+
   async created() {
+
       if(localStorage.getItem('token')) {
         const response = await fetchAPI.get('user');
         this.$store.dispatch('user',response.data.data)
       }
+
+     VueProgressbar.start();
+  },
+
+  mounted() {
+    VueProgressbar.done()
   },
 
   components: {NavBar,Footer},
@@ -18,7 +28,8 @@ export default  {
   methods: {
     noHeader() {
       return this.$route.name != 'Se Connecter'
-    }
+    },
+
   }
 
 }
@@ -27,12 +38,19 @@ export default  {
 
 <template>
 
+
+
+
+
     <header class="bg-transparent sticky-lg-top " v-if="noHeader()">
         <nav-bar/>
+
     </header>
 
 
+
     <main>
+
         <router-view/>
     </main>
 

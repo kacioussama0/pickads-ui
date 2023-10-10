@@ -4,6 +4,7 @@ import Card from "../components/Card.vue";
 import HRNumbers from 'human-readable-numbers';
 import {ClientJS} from "clientjs";
 import Toastify from 'toastify-js'
+import {VueProgressbar} from "@jambonn/vue-next-progressbar";
 
 
 export default  {
@@ -20,6 +21,7 @@ export default  {
   },
   components: {Card},
   async created() {
+    await VueProgressbar.start();
     const response = await fetchAPI.get('/influencers');
     const ads = await fetchAPI.get('/ads');
     const socialMedias = await fetchAPI.get('social-media');
@@ -29,8 +31,7 @@ export default  {
     this.socialMedias = await socialMedias.data;
     this.influencersLoaded = true;
     this.adsLoaded = true;
-
-
+    await VueProgressbar.done();
   },
 
   data() {
@@ -50,10 +51,13 @@ export default  {
 
   methods: {
     async filterBySearch(search) {
+      let searched = this.$refs.search;
       this.influencersLoaded = false;
       let response = await fetchAPI.get(`/influencers?search=${search}`);
       this.influencers = await response.data;
       this.influencersLoaded = true;
+      bootstrap.Modal.getInstance(searched).hide();
+      this.search = '';
     },
     async filterBySocialMedia(social) {
       this.influencersLoaded = false;
@@ -150,7 +154,7 @@ export default  {
                   <p>{{first_ad.description}}</p>
                   <a :href="first_ad.url" target="_blank" class="btn btn-light px-5">Visiter</a>
                 </div>
-                <div class="col-md-6 order-sm-first order-md-last">
+                <div class="col-md-6 order-sm-first order-md-last d-none d-lg-flex">
                   <div class="background-image-owner" :style="{backgroundImage: `url('http://127.0.0.1:8000/storage/${first_ad['ad_owner_logo']}')`}"></div>
                 </div>
               </div>
@@ -171,7 +175,7 @@ export default  {
                   <p>{{ad.description}}</p>
                   <a :href="ad.url" target="_blank" class="btn btn-light px-5">Visiter</a>
                 </div>
-                <div class="col-md-6 order-sm-first order-md-last">
+                <div class="col-md-6 order-sm-first order-md-last d-none d-lg-flex">
                   <div class="background-image-owner" :style="{backgroundImage: `url('http://127.0.0.1:8000/storage/${ad['ad_owner_logo']}')`}"></div>
                 </div>
               </div>
@@ -198,7 +202,7 @@ export default  {
     <h1 class="mb-5 text-center">Choisir votre Influenceur</h1>
 
 
-      <div class="d-flex align-items-center justify-content-md-center  justify-content-lg-between  flex-wrap">
+      <div class="d-flex row align-items-center justify-content-md-center justify-content-lg-between flex-wrap">
 
 
 <!--        <div class="d-flex align-items-center position-relative mb-lg-0 mb-3">-->
@@ -207,29 +211,54 @@ export default  {
 <!--        </div>-->
 
 
-        <div class="btn-group align-items-center flex-wrap " role="group" aria-label="Basic radio toggle button group" style="height: 48px" v-if="socialMedias.length">
+        <div class="btn-group col-xl-6 align-items-center flex-wrap mb-5 mb-xl-0 " role="group" aria-label="Basic radio toggle button group" style="height: 48px" v-if="socialMedias.length">
           <input type="radio" class="btn-check" name="social-media"  id="tout" autocomplete="off" :value="''" @change="filterBySocialMedia(socialMedia)" v-model="socialMedia">
-          <label class="btn btn-outline-light" for="tout" >
-            <i class="bi bi-people-fill" style="font-size: 17px" ></i> Tout
+          <label class="btn btn-outline-light rounded-0" for="tout" >
+            <i class="bi bi-people-fill" style="font-size: 18px" ></i>
+            Tout
           </label>
             <template  v-for="social in socialMedias">
               <input type="radio" class="btn-check" name="social-media" :id="social.name.toLowerCase()" autocomplete="off" :value="social.id" @change="filterBySocialMedia(socialMedia)" v-model="socialMedia">
-              <label class="btn btn-outline-light" :for="social.name.toLowerCase()" >
+              <label class="btn btn-outline-light rounded-0 m-0" :for="social.name.toLowerCase()" >
                 <img :src="`http://127.0.0.1:8000/storage/${social.logo}`" :alt="social.name" width="25" height="25" > {{social.name}}
               </label>
             </template>
-
         </div>
+            <div class="d-flex col-xl-6 align-items-center justify-content-between mt-5 m-md-0">
 
-        <select class="form-select"  v-model="followers" @change="filterByFollowers(followers)" v-if="this.socialMedia"  style="width: 300px;height: 40px">
-          <option value="" selected disabled >Nombre Abonnés</option>
-          <option value="10000-50000" class="fw-bold" selected>10k - 50k</option>
-          <option value="50000-100000" class="fw-bold" selected>50k - 100k</option>
-          <option value="100000-500000" class="fw-bold" selected>100k - 500k</option>
-          <option value="500000-1000000" class="fw-bold" selected>500k - 1M</option>
-          <option value="1000000-100000000" class="fw-bold" selected>1M+</option>
-        </select>
+              <select class="form-select w-75 "  v-model="followers" @change="filterByFollowers(followers)" v-if="this.socialMedia"  style="width: 300px;height: 40px">
+                <option value="" selected disabled >Nombre Abonnés</option>
+                <option value="10000-50000" class="fw-bold" selected>10k - 50k</option>
+                <option value="50000-100000" class="fw-bold" selected>50k - 100k</option>
+                <option value="100000-500000" class="fw-bold" selected>100k - 500k</option>
+                <option value="500000-1000000" class="fw-bold" selected>500k - 1M</option>
+                <option value="1000000-100000000" class="fw-bold" selected>1M+</option>
+              </select>
 
+              <a data-bs-toggle="modal" class="me-3 btn btn-light" href="#search" role="button">
+                <i class="bi bi-search"></i>
+              </a>
+
+              <div class="modal fade " id="search" ref="search" tabindex="-1" aria-labelledby="search" aria-modal="true" role="dialog" >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header ">
+                      <h1 class="modal-title text-black fs-5 " id="search">Rechercher Influenceur</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                      <form @submit.prevent="filterBySearch(search)" class="d-flex" role="search">
+
+                        <input class="form-control me-2"  v-model="search" type="search" placeholder="Rechercher Influenceur" aria-label="Search">
+                        <button class="btn btn-primary" type="submit">Rechercher</button>
+                      </form>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
       </div>
 
 
@@ -323,7 +352,7 @@ export default  {
 
 
 h1 {
-  height: 40vh !important;
+
   display: flex;
   justify-content: center;
   align-items: center;

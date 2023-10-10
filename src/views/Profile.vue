@@ -12,7 +12,7 @@
             <p>{{userProfile.bio}}</p>
 
             <a :href="`mailto:${userProfile.email}`" class=" text-decoration-none mb-3 text-dark">
-              <i class="bi bi-mailbox"></i>
+              <i class="bi bi-envelope"></i>
               {{userProfile.email}}
             </a>
 
@@ -71,7 +71,7 @@ export default  {
 <style scoped>
 
 .profile {
-  height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
 }
 
 </style>

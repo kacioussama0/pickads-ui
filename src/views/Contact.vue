@@ -68,19 +68,17 @@ export default defineComponent({
 </script>
 
 <template>
-
     <div class="contact d-flex justify-content-center align-items-center">
       <div class="container">
 
-
-        <card class="my-5 py-5">
+        <card class="my-5 p-3 rounded-4 p-lg-4">
           <template v-slot:body>
 
-            <div class="row g-5 px-5">
+            <div class="row d-flex justify-content-center align-items-center g-5">
 
-              <div class="col-lg-6">
+              <div class="col-lg-6 ">
 
-                <h1 class="my-5">Contactez-nous</h1>
+                <h1 class="mb-3 mt-2">Contactez-nous</h1>
 
                 <p>
                   Nous sommes toujours ravis d'entendre nos visiteurs. Si vous avez des questions, des commentaires ou des besoins spécifiques, n'hésitez pas à nous contacter à [adresse e-mail ou numéro de téléphone].
@@ -95,7 +93,7 @@ export default defineComponent({
               </div>
 
 
-              <div class="col-lg-6">
+              <div class="col-lg-6 mt-4">
                 <form action="" @submit.prevent="sendMessage">
                   <div class="mb-3">
                     <c-input id="name" :rules="{required:true,min: 3}" type="text" name="Nom Complet" :value="name.value" @onUpdate="update" />
@@ -135,7 +133,9 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.contact {
-  height: calc(100vh - 150px);
+@media (768px <= height <= 1440px) {
+  .contact{
+    min-height: calc(100vh - 150px);
+  }
 }
 </style>

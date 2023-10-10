@@ -1,21 +1,21 @@
 <template>
 
 
-  <div class="offcanvas offcanvas-end bg-dark w-100 text-center" ref="offCanvas" tabindex="-1" id="offcanvasWithBothOptions"  aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas offcanvas-end bg-dark w-md-50 text-center" ref="offCanvas" tabindex="-1" id="offcanvasWithBothOptions"  aria-labelledby="offcanvasWithBothOptionsLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel" ></h5>
+      <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"></h5>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body py-3 p-0" >
 
-        <ul class="navbar-nav mx-auto mb-lg-0  justify-content-center">
-          <li :class="`nav-item  ${item.name.toLowerCase()}`" v-for="item in navList" style="letter-spacing: 1px"   >
-            <router-link class="nav-link active  text-white" aria-current="page" :to="item.path"  @click.prevent="hideThisCanvas">{{item.name}}</router-link>
+        <ul class="navbar-nav  text-start mb-lg-0 ">
+          <li :class="`nav-item px-3 fs-lg-2 ${item.name.toLowerCase()}`" v-for="item in navList" style="letter-spacing: 1px">
+            <router-link class="nav-link active text-white" aria-current="page" :to="item.path" @click.prevent="hideThisCanvas">{{item.name}}</router-link>
           </li>
 
           <div class="dropdown" v-if="user">
 
-            <a class="text-white dropdown-toggle  rounded-pill " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="text-white dropdown-toggle rounded-pill " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-fill text-dark"></i>
               {{user.username}}
             </a>
@@ -28,18 +28,18 @@
           </div>
 
 
-          <li class="nav-item" v-if="!user">
+          <li class="nav-item px-3" v-if="!user">
             <router-link class="nav-link active  text-white" aria-current="page"  to="/login"  @click.prevent="hideThisCanvas">Login</router-link>
           </li>
 
-          <li class="nav-item " v-if="!user">
-            <router-link class="nav-link active  text-white " aria-current="page"  to="/register"  @click.prevent="hideThisCanvas" >Register</router-link>
+          <li class="nav-item px-3" v-if="!user">
+            <router-link class="nav-link active text-white " aria-current="page"  to="/register"  @click.prevent="hideThisCanvas" >Register</router-link>
           </li>
 
         </ul>
 
 
-        <div class="social-media">
+        <div class="social-media mt-3">
           <a href="#">
             <i class="bi bi-facebook"></i>
           </a>
@@ -66,25 +66,25 @@
 
   <nav class="navbar navbar-expand-xxl bg-dark border-bottom border-1 border-opacity-10 border-light py-3">
 
-    <div class="container-fluid  mx-0 px-md-5">
+    <div class="container-fluid mx-0 px-md-5">
 
-      <router-link class="navbar-brand m-0 p-0" to="/">
+      <router-link class="navbar-brand m-0 p-0 " to="/">
         <img src="/logo-white.svg" alt="pickads-logo" class="nav-logo">
       </router-link>
 
 
 
-      <button class="btn btn-primary navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+      <button class="btn btn-primary p-0 navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
         <i class="bi bi-list text-light " style="font-size: 30px"></i>
       </button>
 
 
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav mx-auto mb-lg-0 flex-grow-1 justify-content-center">
-          <li :class="`nav-item  ${item.name.toLowerCase()}`" v-for="item in navList" style="letter-spacing: 1px"  >
+          <li :class="`nav-item ${item.name.toLowerCase()}`" v-for="item in navList" style="letter-spacing: 1px"  >
 
             <router-link class="nav-link active  text-white" aria-current="page"   :to="item.path" >
-              <i :class="item.icon"></i>
+            <i :class="`${item.icon} fs-5`" style="margin-right: .5rem"></i>
               {{item.name}}
             </router-link>
           </li>
@@ -100,21 +100,16 @@
 
 
 
-        <ul class="navbar-nav mx-auto mb-lg-0  justify-content-center">
-
-
+        <ul class="navbar-nav mx-auto mb-lg-0 align-items-center justify-content-center">
           <div class="dropdown" v-if="user">
-
-            <a class="dropdown-toggle btn btn-light text-dark px-3  rounded-pill " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="dropdown-toggle btn btn-light text-dark px-3 rounded-pill " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-fill text-dark"></i>
               {{user.username}}
             </a>
-
             <ul class="dropdown-menu">
               <router-link  aria-current="page"  to="/dashboard" class="dropdown-item">Profile</router-link>
               <a class="dropdown-item" aria-current="page"  href="javascript:void(0)" @click="logout">Logout</a>
             </ul>
-
           </div>
 
 
@@ -131,15 +126,10 @@
               S'inscrire
             </router-link>
           </li>
-
         </ul>
-
       </div>
-
-
     </div>
   </nav>
-
 </template>
 
 
@@ -152,22 +142,22 @@ export default  {
         {
           name: 'Accueil',
           path: '/',
-          icon: 'bi bi-house'
+          icon: 'bi bi-house-fill'
         },
         {
           name: 'Influenceurs',
           path: '/influencers',
-          icon: 'bi bi-people'
+          icon: 'bi bi-people-fill'
         },
         {
           name: 'À propos de nous',
           path: '/about-us',
-          icon: 'bi bi-info'
+          icon: 'bi bi-info-circle-fill'
         },
         {
           name: 'Contactez-nous',
           path: '/contact',
-          icon: 'bi bi-envelope'
+          icon: 'bi bi-envelope-fill'
         },
       ],
 
@@ -229,12 +219,12 @@ input[type=text]::placeholder {
 
 @media screen and (max-width : 991px) {
   .nav-link {
-    font-size: 30px;
+    font-size: 18px !important;
   }
 
   .nav-item {
     border-bottom: 1px solid var(--bs-primary);
-    padding: 20px;
+    padding: 13px;
   }
 
 }

@@ -1,22 +1,22 @@
 <template>
 
 
-  <div class="offcanvas offcanvas-end bg-dark w-md-50 text-center " ref="offCanvas" tabindex="-1" id="offcanvasWithBothOptions"  aria-labelledby="offcanvasWithBothOptionsLabel">
+  <div class="offcanvas offcanvas-end bg-dark  text-center " ref="offCanvas" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel"  style="width: 300px;">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel"></h5>
       <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body py-3 p-0" >
+    <div class="offcanvas-body py-3 p-0" style="min-width: 200px !important;" >
 
-        <ul class="navbar-nav  text-start mb-lg-0 ">
+        <ul class="navbar-nav  mb-lg-0">
           <li :class="`nav-item px-3 fs-lg-2 ${item.name.toLowerCase()}`" v-for="item in navList" style="letter-spacing: 1px">
             <router-link class="nav-link active text-white" aria-current="page" :to="item.path" @click.prevent="hideThisCanvas">{{item.name}}</router-link>
           </li>
 
-          <div class="dropdown" v-if="user">
+          <div class="dropdown py-3" v-if="user">
 
-            <a class="text-white dropdown-toggle rounded-pill " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-person-fill text-dark"></i>
+            <a class="text-white dropdown-toggle rounded-pill  text-decoration-none " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-fill text-white"></i>
               {{user.username}}
             </a>
 
@@ -64,19 +64,28 @@
     </div>
 
 
-  <nav class="navbar navbar-expand-xxl bg-dark border-bottom border-1 border-opacity-10 border-light py-3">
+  <nav class="navbar  navbar-expand-xxl bg-dark border-bottom border-1 border-opacity-10 border-light py-3">
+
 
     <div class="container-fluid mx-0 px-md-5">
 
-      <router-link class="navbar-brand m-0 p-0 " to="/">
-        <img src="/logo-white.svg" alt="pickads-logo" class="nav-logo">
-      </router-link>
+        <router-link class="navbar-brand m-0 p-0 " to="/">
+          <img src="/logo-white.svg" alt="pickads-logo" class="nav-logo">
+        </router-link>
 
+      <div class="d-flex">
 
+        <div v-if="this.$route.path == '/influencers'">
+          <a data-bs-toggle="modal" class="btn btn-light mx-3 d-xxl-none" href="#search" role="button" >
+            <i class="bi bi-search"></i>
+          </a>
+        </div>
 
-      <button class="btn btn-primary p-0 navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
-        <i class="bi bi-list text-light " style="font-size: 30px"></i>
-      </button>
+        <button class="btn btn-primary p-0 navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" style="height: 38px">
+          <i class="bi bi-list text-light" style="font-size: 30px"></i>
+        </button>
+
+      </div>
 
 
       <div class="collapse navbar-collapse">
@@ -87,17 +96,21 @@
             <i :class="`${item.icon} fs-5`" style="margin-right: .5rem"></i>
               {{item.name}}
             </router-link>
+
+
+
           </li>
 
 
         </ul>
 
 
-<!--        <div class="d-flex align-items-center position-relative  ms-3" v-if="this.$route.path == '/influencers'">-->
-<!--          <i class="bi bi-search position-absolute top-50 ms-3 translate-middle-y text-white"></i>-->
-<!--          <input type="text" v-model="search"  @input="filterBySearch(search)" class="ps-5 d-block bg-white bg-opacity-10 rounded-5 form-control" placeholder="Rechercher Influenceur">-->
-<!--        </div>-->
 
+        <div v-if="this.$route.path == '/influencers'">
+          <a data-bs-toggle="modal" class="btn btn-light mx-3" href="#search" role="button" >
+            <i class="bi bi-search"></i>
+          </a>
+        </div>
 
 
         <ul class="navbar-nav mx-auto mb-lg-0 align-items-center justify-content-center">
@@ -120,6 +133,7 @@
             </router-link>
           </li>
 
+
           <li class="nav-item " v-if="!user">
             <router-link class="nav-link active  text-white btn-gradient ms-3 rounded-pill px-5" aria-current="page"  to="/register">
               <i class="bi bi-plus-circle me-2"></i>
@@ -127,6 +141,12 @@
             </router-link>
           </li>
         </ul>
+
+
+
+
+
+
       </div>
     </div>
   </nav>
@@ -138,6 +158,7 @@ import {mapGetters} from "vuex";
 import {Offcanvas} from "bootstrap";
 
 export default  {
+
   data() {
     return {
       navList : [

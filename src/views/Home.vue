@@ -24,7 +24,7 @@
          <div class="mx-md-auto text-center text-lg-start  mx-lg-0 mb-5">
            <h3 class="mb-4">Bientôt sur</h3>
              <span class="d-lg-flex px-0">
-               <img src="../assets/imgs/googleplay_fr.png" alt="google play" class="me-1">
+               <img src="../assets/imgs/googleplay_fr.png" alt="google play" >
                <img src="../assets/imgs/appstore_fr.png" alt="apple store" class="">
             </span>
          </div>
@@ -33,7 +33,7 @@
        </div>
 
        <div class="col-lg-7">
-         <img src="../assets/imgs/1.png" alt="landing bg" class="img-fluid wow animate animate__bounce">
+         <img src="../assets/imgs/landing-bg.png" alt="landing bg" class="h-100 w-100">
        </div>
 
      </div>
@@ -47,6 +47,9 @@
 
 <script>
 
+export default {
+
+}
 
 </script>
 

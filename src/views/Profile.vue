@@ -12,7 +12,7 @@
             <p>{{userProfile.bio}}</p>
 
             <a :href="`mailto:${userProfile.email}`" class=" text-decoration-none mb-3 text-dark">
-              <i class="bi bi-envelope"></i>
+              <i class="bi bi-envelope me-1"></i>
               {{userProfile.email}}
             </a>
 
@@ -42,17 +42,21 @@ export default  {
   async created() {
 
     const username = this.$route.params.username;
-    const userResponse = await fetchAPI.get('/profile/' + username);
-    this.profile = await userResponse.data.data;
-    this.loaded = true
+
+    try {
+      const userResponse = await fetchAPI.get('/profile/' + username);
+      this.profile = await userResponse.data.data;
+      this.loaded = true
+    }catch (error) {
+      this.$router.push('/404')
+    }
+
 
   },
   data() {
     return {
       profile: {},
       loaded: false,
-
-
     }
   },
   computed: {

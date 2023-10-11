@@ -9,6 +9,7 @@ import Forget from "./views/Forget.vue";
 import Reset from "./views/Reset.vue";
 import Dashboard from "./views/Dashboard.vue";
 import Profile from "./views/Profile.vue";
+import NotFound from "./views/NotFound.vue";
 
 export const MY_URL = 'http://127.0.0.1:8000';
 
@@ -65,6 +66,12 @@ const routes = [
         name: 'Profile',
         path: '/profile/:username',
         component: Profile
+    },
+    {
+        path: '/404', name: 'NotFound', component: NotFound
+    },
+    {
+        path: '/:catchAll(.*)', redirect:'404'
     }
 
 ]

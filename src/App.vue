@@ -6,8 +6,6 @@ import {VueProgressbar} from "@jambonn/vue-next-progressbar";
 
 export default  {
 
-
-
   async created() {
 
       if(localStorage.getItem('token')) {
@@ -41,18 +39,16 @@ export default  {
 
 
 
-    <header class="bg-transparent sticky-lg-top " v-if="noHeader()">
+    <header class="bg-transparent sticky-top" v-if="noHeader()">
         <nav-bar/>
 
     </header>
-
 
 
     <main>
 
         <router-view/>
     </main>
-
 
     <footer class="py-2  bg-transparent  border-top border-1 border-opacity-10 border-light py-3" v-if="noHeader()">
         <Footer/>
@@ -67,7 +63,6 @@ body {
   background-color: var(--bs-dark) !important;
   color: #fff !important;
 }
-
 
 .fade-enter-active,
 .fade-leave-active {

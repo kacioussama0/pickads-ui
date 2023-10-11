@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import VueMeta from "vue-meta";
 import {router} from "./router.js";
 import VueNextProgressbar from '@jambonn/vue-next-progressbar';
 import '@jambonn/vue-next-progressbar/lib/vue-next-progressbar.min.css';
@@ -16,5 +17,4 @@ const app = createApp(App);
 app.use(router);
 app.use(store);
 app.use(VueNextProgressbar, { routes: true });
-
 app.mount('#app')

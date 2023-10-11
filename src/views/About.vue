@@ -11,7 +11,7 @@
       </p>
 
 
-      <div class="row my-5 g-5">
+      <div class="row my-5 g-5 ">
 
         <div class="col-md-4">
           <card>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="col-md-4">
-          <card >
+          <card>
             <template v-slot:body >
               <div class="p-3">
                 <h4>Nos Réalisations</h4>
@@ -54,7 +54,6 @@
         </div>
 
       </div>
-
 
     </div>
   </div>

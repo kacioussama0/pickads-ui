@@ -57,7 +57,7 @@ export default  {
 
               <div class="container">
 
-                <img src="/logo-white.svg" alt="logo white" class="w-25 d-block mx-auto  my-5">
+                <img src="/logo-white.svg" alt="logo white" class="d-block mx-auto  my-5" style="width: 300px">
 
                 <div class="card mx-auto rounded-4 " style="max-width: 600px">
 
@@ -70,18 +70,18 @@ export default  {
                     </div>
 
                     <form action="" @submit.prevent.stop="submit" class="vstack gap-2 text-dark">
-                      <c-input :rules="{required: true, min: 8, max:25}" type="text" name="Username" id="username" @onUpdate="update" :value="username.value"/>
-                      <c-input :rules="{required: true, min: 8, max:25}" type="password" name="Password" id="password" @onUpdate="update" :value="password.value"/>
-                      <c-button title="Login"  class="btn-gradient" :disabled="!valid"/>
+                      <c-input :rules="{required: true, min: 8, max:25}" type="text" name="Nom D'utilisateur" id="username" @onUpdate="update" :value="username.value"/>
+                      <c-input :rules="{required: true, min: 8, max:25}" type="password" name="Mot De Passe" id="password" @onUpdate="update" :value="password.value"/>
+                      <c-button title="Connecter"  class="btn-gradient" :disabled="!valid"/>
                     </form>
-                    <router-link to="/forget-password" class="mt-3 d-block">Forget Password ?</router-link>
+                    <router-link to="/forget-password" class="mt-3 d-block">Mot de passe oublié ?</router-link>
                   </div>
 
                 </div>
 
               </div>
 
-            <router-link to="/" class="mt-3 d-block  btn btn-outline-light">Return To Home</router-link>
+            <router-link to="/" class="mt-3 d-block  btn btn-outline-light">Retourner Accueil</router-link>
 
           </div>
 

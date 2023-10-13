@@ -103,7 +103,6 @@ export default  {
     },
 
 
-
     async like(userId) {
 
       try {
@@ -115,6 +114,10 @@ export default  {
           'fingerprint': store.state.fingerprint,
           'user_agent': store.state.userAgent,
           'user_id': userId,
+        },{
+          headers: {
+            'Accept': 'application/json'
+          }
         })
 
         text.textContent++;
@@ -148,7 +151,7 @@ export default  {
 
 <template>
 
-  <div id="carouselExampleCaptions" class="carousel slide" v-if="adsLoaded && ads.length" data-bs-ride="carousel">
+  <div id="carouselExampleCaptions" class="carousel slide" v-if="adsLoaded && ads.length" data-bs-ride="carousel" data-interval="3000">
 
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleCaptions" :data-bs-slide-to="0" class="active rounded-circle" style="width: 10px;height: 10px" aria-current="true" aria-label="Slide 0"></button>
@@ -284,7 +287,7 @@ export default  {
       </div>
 
 
-    <div class="row g-4 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 my-3">
+    <div class="row g-4 row-cols-sm-2  row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 my-3">
 
       <div  v-for="influencer in getInfluncers.data" v-if="influencersLoaded" >
 
@@ -384,7 +387,7 @@ h1 {
 }
 
 .overlay::before {
-  content: "";
+
   width: 100%;
   height: 100%;
   background-color: var(--bs-dark);

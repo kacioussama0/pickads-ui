@@ -7,13 +7,11 @@ import {VueProgressbar} from "@jambonn/vue-next-progressbar";
 export default  {
 
   async created() {
-
       if(localStorage.getItem('token')) {
         const response = await fetchAPI.get('user');
         this.$store.dispatch('user',response.data.data)
       }
-
-     VueProgressbar.start();
+     await  VueProgressbar.start();
   },
 
   mounted() {

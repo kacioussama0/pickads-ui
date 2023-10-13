@@ -106,10 +106,10 @@ export default  {
 
     async like(userId) {
 
-      let text = event.target.lastElementChild;
-      let heart = event.target.firstElementChild;
-
       try {
+
+        let text = event.target.lastElementChild;
+        let heart = event.target.firstElementChild;
 
         let liked = await  fetchAPI.post('put-like',{
           'fingerprint': store.state.fingerprint,
@@ -148,7 +148,7 @@ export default  {
 
 <template>
 
-  <div id="carouselExampleCaptions" class="carousel slide" v-if="ads.length" data-bs-ride="carousel">
+  <div id="carouselExampleCaptions" class="carousel slide" v-if="adsLoaded && ads.length" data-bs-ride="carousel">
 
     <div class="carousel-indicators">
       <button type="button" data-bs-target="#carouselExampleCaptions" :data-bs-slide-to="0" class="active rounded-circle" style="width: 10px;height: 10px" aria-current="true" aria-label="Slide 0"></button>
@@ -238,10 +238,10 @@ export default  {
     <h1 class="mb-5 text-center">Choisir votre Influenceur</h1>
 
 
-      <div class=" d-flex align-items-center justify-content-center my-5">
+      <div class="d-flex align-items-center justify-content-center flex-wrap flex-md-nowrap my-5">
 
 
-        <div class="btn-group social-filter  align-items-center flex-wrap justify-content-start me-4  mb-xl-0" role="group" aria-label="Basic radio toggle button group" style="width: 90%;height: 48px" v-if="socialMedias.length">
+        <div class="btn-group social-filter  align-items-center flex-wrap justify-content-start me-md-4  mb-xl-0" role="group" aria-label="Basic radio toggle button group" style="height: 48px" v-if="socialMedias.length">
           <input type="radio" class="btn-check" name="social-media"  id="tout" autocomplete="off" value="" @change="filterBySocialMedia(socialMedia)" v-model="socialMedia">
           <label class="btn btn-outline-light rounded-0" for="tout" >
             <i class="bi bi-people-fill" style="font-size: 18px" ></i>
@@ -255,7 +255,7 @@ export default  {
             </template>
         </div>
 
-        <a data-bs-toggle="modal" href="#filter-followers" class="btn btn-light me-3 d-flex align-items-center justify-content-center"  role="button" style="height: 40.7px" v-if="socialMedias.length">
+        <a data-bs-toggle="modal" href="#filter-followers" class="btn btn-light me-0 me-md-3 d-flex align-items-center filter-followers justify-content-center"  role="button" style="height: 40.7px" v-if="socialMedias.length">
           <i class="bi bi-funnel"></i>
         </a>
 
@@ -284,16 +284,14 @@ export default  {
       </div>
 
 
-    <div class="row g-5 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 my-3">
+    <div class="row g-4 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 my-3">
 
       <div  v-for="influencer in getInfluncers.data" v-if="influencersLoaded" >
 
-        <div class="card border-0 rounded-3 overflow-hidden">
+        <div class="card border-0 rounded-4 overflow-hidden bg-transparent">
 
           <div class="position-relative overlay z-1">
-
-            <img class="card-img-top" :src="influencer.avatar['medium']" :alt="influencer.last_name" style="height: 300px;background-color: var(--bs-dark)">
-
+            <div class="background-avatar-image rounded-top-4" :style="{backgroundImage: `url('${influencer.avatar['medium']}')`}"></div>
             <span class="position-absolute likes start-50 w-100 h-100 d-flex align-items-end justify-content-center bottom-0 text-white translate-middle-x z-3 fs-4"  @click.once ="like(influencer.id)">
               <i :class="myLikes.includes(influencer.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"></i>
 
@@ -304,7 +302,7 @@ export default  {
 
           </div>
 
-          <div class="card-body text-center">
+          <div class="card-body text-center bg-white">
             <router-link :to="`/profile/${influencer.username}`" class="text-decoration-none">
               <h5 class="card-title text-capitalize mb-">{{influencer.first_name + ' ' + influencer.last_name}}</h5>
               <p class="card-text text-muted mb-0" style="min-height: 48px">{{influencer.bio}}</p>
@@ -334,11 +332,7 @@ export default  {
                       </a>
                     </li>
                   </ul>
-
-
-
               </div>
-
             </div>
 
           </div>
@@ -347,21 +341,20 @@ export default  {
 
       <div class="" v-else-if="!influencersLoaded" v-for="item in 8">
 
-        <div class="card border-0 shadow rounded-4 text-center">
-          <div style="height: 400px" class="bg-secondary rounded-top-4 "></div>
-          <div class="card-body">
+        <div class="card border-0 shadow rounded-4 overflow-hidden text-center bg-transparent">
+          <div style="height: 300px" class="bg-secondary rounded-top-4 "></div>
+          <div class="card-body bg-white">
             <h5 class="card-title placeholder-glow">
               <span class="placeholder col-6"></span>
             </h5>
             <p class="card-text placeholder-glow">
               <span class="placeholder col-8"></span>
             </p>
-            <a class="btn btn-primary disabled placeholder col-6" aria-disabled="true"></a>
+            <a class="btn btn-info disabled placeholder col-5" aria-disabled="true"></a>
           </div>
         </div>
 
       </div>
-
 
 
     </div>
@@ -382,7 +375,6 @@ export default  {
 
 <style scoped>
 
-
 h1 {
   min-height: 40vh;
   display: flex;
@@ -401,7 +393,6 @@ h1 {
   left: 0;
   z-index: 2;
   opacity: .2;
-  border-radius:  1rem;
 }
 
 
@@ -426,16 +417,16 @@ h1 {
   background-repeat: no-repeat;
 }
 
+.social-filter {
+  width : 90% !important;
+}
 
-
-
-.up { bottom:100% !important; top:auto !important; }
 
 @media screen and (max-width: 768px) {
 
-  .social-filter {
-    width : 85% !important;
-  }
+    .social-filter {
+      width : 85% !important;
+    }
     .carousel-item .card .col-md-6:first-child {
       height: 50vh !important;
     }
@@ -454,6 +445,25 @@ h1 {
   }
 
 
+}
+
+
+
+@media screen and (max-width: 425px){
+  .social-filter,
+  .filter-followers{
+    width : 100% !important;
+    margin-top: 100px;
+  }
+}
+
+
+.background-avatar-image {
+  height: 300px;
+  background-size: cover;
+  background-color: var(--bs-dark);
+  background-repeat: no-repeat;
+  background-position: top center;
 }
 
 </style>

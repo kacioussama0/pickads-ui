@@ -23,18 +23,18 @@ export default  {
       const EMAIL = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
       if(this.rules.required && !value) {
-        return 'required'
+        return 'Requis'
       }
       if(this.rules.min && value.length < this.rules.min ) {
-          return `${this.name} must be greater than ${this.rules.min}`
+          return `${this.name} doit être supérieur à ${this.rules.min}`
       }
 
       if(this.rules.max && value.length > this.rules.max ) {
-        return `${this.name} must be less than ${this.rules.max}`
+        return `${this.name} doit être inférieur à ${this.rules.max}`
       }
 
       if(this.rules.email && !value.match(EMAIL)) {
-        return  `enter a valid email`
+        return  `Entrer un email valide`
       }
 
     }
@@ -53,18 +53,18 @@ export default  {
 
 
   <div class="form-floating" v-if="type !== 'textarea' && type !== 'select'">
-    <input :type="type" :id="id"  :class="`form-control bg-white bg-opacity-50 border-0    border-bottom border-dark-subtle  mb-1 ${error ? 'error': ''}`"  :placeholder="`Enter ${name}`" @input="input" :value="value" />
+    <input :type="type" :id="id"  :class="`form-control bg-white bg-opacity-50 border-0    border-bottom border-dark-subtle  mb-1 ${error ? 'error': ''}`"  :placeholder="`Entrer  ${name}`" @input="input" :value="value" />
     <label :for="id" class="">{{name}}</label>
   </div>
 
 
 
   <select  :id="id" :class="`form-select bg-white bg-opacity-50 border-0 border-bottom p-3 border-dark-subtle  mb-1 ${error ? 'error': ''}`"  @change="input" :value="value" v-if="type === 'select'">
-    <option value="" disabled>Choose {{name}}</option>
+    <option value="" disabled>Choisi {{name}}</option>
     <option :value="option.value" :selected="value === option.value" v-for="option in options" >{{option.title}}</option>
   </select>
 
-  <textarea :type="type" :id="id" :class="`form-control bg-white bg-opacity-50 border-0  border-bottom border-dark-subtle mb-1 ${error ? 'error': ''}`"  :placeholder="`Enter ${name}`" @input="input" :value="value" v-if="type === 'textarea'">{{value}}</textarea>
+  <textarea :type="type" :id="id" :class="`form-control bg-white bg-opacity-50 border-0  border-bottom border-dark-subtle mb-1 ${error ? 'error': ''}`"  :placeholder="`Entrer ${name}`" @input="input" :value="value" v-if="type === 'textarea'">{{value}}</textarea>
 
   <div class="text-danger ms-2" v-if="error">{{error}}*</div>
 

@@ -88,8 +88,17 @@ export default  {
       let followedSearch = this.$refs.filter_followers;
       let followersFrom = 0;
       let followersTo = 0;
-      console.log(this.socialMedia)
-      if(this.socialMedia === '') {
+
+      if(this.followers === '*') {
+
+        let response = await fetchAPI.get(`/influencers`);
+        this.influencers = await response.data;
+        this.influencersLoaded = true;
+        Modal.getInstance(followedSearch).hide();
+        this.socialMedia = '';
+      }
+
+      else if(this.socialMedia === '' && this.followers) {
         this.influencersLoaded = false;
         let splitted = this.followers.split('-');
         followersFrom = splitted[0];
@@ -100,7 +109,7 @@ export default  {
         Modal.getInstance(followedSearch).hide();
       }
 
-      if(this.followers && this.socialMedia) {
+      else if(this.followers && this.socialMedia) {
         this.influencersLoaded = false;
         let splitted = this.followers.split('-');
         followersFrom = splitted[0];
@@ -109,41 +118,41 @@ export default  {
         this.influencers = await response.data;
         this.influencersLoaded = true;
         Modal.getInstance(followedSearch).hide();
-
       }
     },
 
 
-    async like(userId) {
-
-      try {
+    like(userId) {
 
         let text = event.target.lastElementChild;
         let heart = event.target.firstElementChild;
 
-        let liked = await  fetchAPI.post('put-like',{
+        fetchAPI.post('/put-like',{
           'fingerprint': store.state.fingerprint,
           'user_agent': store.state.userAgent,
           'user_id': userId,
-        },{
-          headers: {
-            'Accept': 'application/json'
-          }
+        }).then((data)=> {
+          text.textContent++;
+          heart.classList = "bi bi-heart-fill text-danger";
+
+
+        }).catch((error)=> {
+
+          console.log(error)
+
+          fetchAPI.post('/put-unlike',{
+            'fingerprint': store.state.fingerprint,
+            'user_agent': store.state.userAgent,
+            'user_id': userId,
+          }).then((data)=> {
+            text.textContent--;
+            heart.classList = "bi bi-heart";
+
+          })
+
         })
 
-        text.textContent++;
-        heart.classList = "bi bi-heart-fill text-danger";
 
-      }catch (error) {
-
-        Toastify({
-          text: "Ce profil est déjà aimé",
-          position: "left",
-          style: {
-            background: "var(--bs-danger)",
-          }
-        }).showToast();
-      }
 
     },
 
@@ -283,6 +292,7 @@ export default  {
               <div class="modal-body text-center" >
                 <select class="form-select text-center fw-bolder"  v-model="followers" @change="filterByFollowers(followers)"  style="height: 40px">
                   <option value="" selected disabled >Nombre Abonnés</option>
+                  <option value="*"  class="fw-bold" >Tout</option>
                   <option value="10000-50000" class="fw-bold" selected>10k - 50k</option>
                   <option value="50000-100000" class="fw-bold" selected>50k - 100k</option>
                   <option value="100000-500000" class="fw-bold" selected>100k - 500k</option>
@@ -306,7 +316,7 @@ export default  {
 
           <div class="position-relative overlay z-1">
             <div class="background-avatar-image rounded-top-4" :style="{backgroundImage: `url('${influencer.avatar['medium']}')`}"></div>
-            <span class="position-absolute likes start-50 w-100 h-100 d-flex align-items-end justify-content-center bottom-0 text-white translate-middle-x z-3 fs-4"  @click.once ="like(influencer.id)">
+            <span class="position-absolute likes start-50 w-100 h-100 d-flex align-items-end justify-content-center bottom-0 text-white translate-middle-x z-3 fs-4"  @click ="like(influencer.id)">
               <i :class="myLikes.includes(influencer.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"></i>
 
               <span class="like d-flex align-items-end justify-content-center ms-2 fw-bolder" >

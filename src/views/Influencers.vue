@@ -145,7 +145,10 @@ export default  {
             'user_agent': store.state.userAgent,
             'user_id': userId,
           }).then((data)=> {
-            text.textContent--;
+
+            if(text.textContent >= 0) {
+              text.textContent--;
+            }
             heart.classList = "bi bi-heart";
 
           })
@@ -315,22 +318,23 @@ export default  {
         <div class="card border-0 rounded-4 overflow-hidden bg-transparent">
 
           <div class="position-relative overlay z-1">
+            <router-link :to="`/profile/${influencer.username}`" class="text-decoration-none">
             <div class="background-avatar-image rounded-top-4" :style="{backgroundImage: `url('${influencer.avatar['medium']}')`}"></div>
-            <span class="position-absolute likes start-50 w-100 h-100 d-flex align-items-end justify-content-center bottom-0 text-white translate-middle-x z-3 fs-4"  @click ="like(influencer.id)">
+            </router-link>
+            <button class="position-absolute bottom-0 px-3 d-flex bg-light border-0 bg-opacity-75 align-items-center justify-content-center fw-bolder btn btn-light mb-2 translate-middle-x start-50"  @click ="like(influencer.id)">
               <i :class="myLikes.includes(influencer.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"></i>
-
-              <span class="like d-flex align-items-end justify-content-center ms-2 fw-bolder" >
+              <span class="ms-2">
                 {{influencer['likes']}}
               </span>
-            </span>
+            </button>
 
           </div>
 
           <div class="card-body text-center bg-white">
-            <router-link :to="`/profile/${influencer.username}`" class="text-decoration-none">
+
               <h5 class="card-title text-capitalize mb-">{{influencer.first_name + ' ' + influencer.last_name}}</h5>
               <p class="card-text text-muted mb-0" style="min-height: 48px">{{influencer.bio}}</p>
-            </router-link>
+
 
 <!--            <span class="email">-->
 <!--              <i class="bi bi-envelope me-1"></i>-->

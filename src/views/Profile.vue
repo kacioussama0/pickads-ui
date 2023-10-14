@@ -3,8 +3,8 @@
     <div class="container my-5">
       <card v-if="loaded">
         <template v-slot:body>
-          <div class="d-flex flex-column align-items-center p-5">
-            <img :src="userProfile.avatar['small']" alt="" :class="`${userProfile.avatar['small'].includes('logo') ? ' w-50 img-fluid' : 'rounded-circle'}`" v-if="userProfile.avatar['small']">
+          <div class="d-flex flex-column align-items-center p-4 p-md-5">
+            <img :src="userProfile.avatar['small']" alt="" class="rounded-circle" v-if="userProfile.avatar['small']" width="150" height="150">
             <span class="badge text-bg-warning mt-3">{{userProfile.category.name}}</span>
             <h1 class="text-capitalize">{{userProfile.last_name + ' ' + userProfile.first_name  }}</h1>
             <h6 class="text-warning mb-4">@{{userProfile.username}}</h6>

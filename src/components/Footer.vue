@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div class="container-fluid px-5 d-flex justify-content-center justify-content-md-between align-items-center flex-wrap">
+    <div class="container-fluid px-md-5 d-flex justify-content-center justify-content-md-between align-items-center flex-wrap">
 
       <p class="mb-3 mb-md-0">Tous réservés par PickADS © 2023</p>
 

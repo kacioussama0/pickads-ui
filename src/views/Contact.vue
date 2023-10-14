@@ -71,7 +71,7 @@ export default defineComponent({
     <div class="contact d-flex justify-content-center align-items-center">
       <div class="container">
 
-        <card class="my-5 p-3 rounded-4 p-lg-4">
+        <card class="my-5 p-3 rounded-4 p-lg-5">
           <template v-slot:body>
 
             <div class="row d-flex justify-content-center align-items-center g-5">
@@ -86,7 +86,7 @@ export default defineComponent({
                 </p>
 
                 <span>
-                    <i class="bi bi-mailbox-flag me-2" style="font-size: 20px"></i>
+                    <i class="bi bi-envelope me-2" style="font-size: 20px"></i>
                     <span>Email : contact@pickads.com</span>
                   </span>
 

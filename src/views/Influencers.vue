@@ -31,7 +31,7 @@ export default  {
     const response = await fetchAPI.get('/influencers');
     const ads = await fetchAPI.get('/ads');
     const socialMedias = await fetchAPI.get('social-media');
-    const likes = await fetchAPI.get(`who-like/${store.state.fingerprint}`);
+    const likes = await fetchAPI.get(`who-like/${store.state.fingerprint}?user_agent=${store.state.userAgent}`);
     this.ads =  ads.data.length >= 1 ? await ads.data.slice(1) : await ads.data;
     this.first_ad = await ads.data[0];
     this.influencers = await response.data;
@@ -88,6 +88,17 @@ export default  {
       let followedSearch = this.$refs.filter_followers;
       let followersFrom = 0;
       let followersTo = 0;
+      console.log(this.socialMedia)
+      if(this.socialMedia === '') {
+        this.influencersLoaded = false;
+        let splitted = this.followers.split('-');
+        followersFrom = splitted[0];
+        followersTo = splitted[1];
+        let response = await fetchAPI.get(`/influencers/${this.socialMedia}?followersFrom=${followersFrom}&followersTo=${followersTo}`);
+        this.influencers = await response.data;
+        this.influencersLoaded = true;
+        Modal.getInstance(followedSearch).hide();
+      }
 
       if(this.followers && this.socialMedia) {
         this.influencersLoaded = false;

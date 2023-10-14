@@ -127,11 +127,15 @@ export default  {
         let text = event.target.lastElementChild;
         let heart = event.target.firstElementChild;
 
+      console.log(event)
+
+
         fetchAPI.post('/put-like',{
           'fingerprint': store.state.fingerprint,
           'user_agent': store.state.userAgent,
           'user_id': userId,
         }).then((data)=> {
+
           text.textContent++;
           heart.classList = "bi bi-heart-fill text-danger";
 
@@ -321,12 +325,12 @@ export default  {
             <router-link :to="`/profile/${influencer.username}`" class="text-decoration-none">
             <div class="background-avatar-image rounded-top-4" :style="{backgroundImage: `url('${influencer.avatar['medium']}')`}"></div>
             </router-link>
-            <button class="position-absolute bottom-0 px-3 d-flex bg-light border-0 bg-opacity-75 align-items-center justify-content-center fw-bolder btn btn-light mb-2 translate-middle-x start-50"  @click ="like(influencer.id)">
-              <i :class="myLikes.includes(influencer.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"></i>
-              <span class="ms-2">
+            <div class="position-absolute bottom-0 px-4 rounded-pill d-flex bg-light border-0 bg-opacity-75 align-items-center justify-content-center fw-bolder btn btn-light mb-2 translate-middle-x start-50"  @click="like(influencer.id)">
+                <i :class="myLikes.includes(influencer.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"></i>
+                <span class="ms-2">
                 {{influencer['likes']}}
               </span>
-            </button>
+            </div>
 
           </div>
 

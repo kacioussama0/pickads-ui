@@ -262,7 +262,7 @@ export default  {
 
 
 
-    <h1 class="mb-5 text-center">Choisir votre Influenceur</h1>
+    <h1 class="text-center">Choisir votre Influenceur</h1>
 
 
       <div class="d-flex align-items-center justify-content-center flex-wrap flex-md-nowrap my-5">
@@ -482,7 +482,7 @@ h1 {
   .social-filter,
   .filter-followers{
     width : 100% !important;
-    margin-top: 100px;
+    margin-bottom: 100px;
   }
 }
 

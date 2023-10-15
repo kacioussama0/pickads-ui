@@ -5,7 +5,7 @@
         <template v-slot:body>
           <div class="d-flex flex-column align-items-center p-4 p-md-5">
             <img :src="userProfile.avatar['small']" alt="" class="rounded-circle" v-if="userProfile.avatar['small']" width="150" height="150">
-            <span class="badge text-bg-warning mt-3">{{userProfile.category.name}}</span>
+<!--            <span class="badge text-bg-warning mt-3">{{userProfile.category.name}}</span>-->
             <h1 class="text-capitalize">{{userProfile.last_name + ' ' + userProfile.first_name  }}</h1>
             <h6 class="text-warning mb-4">@{{userProfile.username}}</h6>
 
@@ -17,7 +17,7 @@
             </a>
 
             <div class="social-media d-flex align-items-center justify-content-center justify-content-lg-between  flex-wrap">
-              <a v-for="social in userProfile['social_medias']" class="text-center me-4 text-white text-decoration-none text-center mb-3 mb-lg-0" target="_blank" :href="`${social.url}${social.pivot.url}`">
+              <a v-for="social in userProfile['social_medias']" class="text-center  mx-1 me-md-4 text-white text-decoration-none text-center mb-3 mb-lg-0" target="_blank" :href="`${social.url}${social.pivot.url}`">
                 <i :class="`bi bi-${social.name.toLowerCase()} fs-3  text-primary `"></i>
                 <span class="d-block text-primary">{{HRNumbers.toHumanString(social.pivot.followers)}} Followers</span>
               </a>

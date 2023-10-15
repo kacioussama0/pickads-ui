@@ -40,19 +40,15 @@
 
 
         <div class="social-media mt-3">
-          <a href="#">
+          <a href="https://www.facebook.com/profile.php?id=61552559151697" target="_blank">
             <i class="bi bi-facebook"></i>
           </a>
 
-          <a href="#">
-            <i class="bi bi-twitter"></i>
+          <a href="https://twitter.com/PickAds_dz" target="_blank">
+            <i class="bi bi-twitter-x"></i>
           </a>
 
-          <a href="#">
-            <i class="bi bi-youtube"></i>
-          </a>
-
-          <a href="#">
+          <a href="https://www.instagram.com/pickads_dz" target="_blank">
             <i class="bi bi-instagram"></i>
           </a>
 

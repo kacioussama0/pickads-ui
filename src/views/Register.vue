@@ -61,6 +61,12 @@
       </tab-content>
       <tab-content title="Social Media" icon="bi bi-instagram" :before-change="socialValidate">
 
+        <div class="alert alert-danger" v-if="errors">
+            <ul>
+              <li v-for="error in errors">{{error[0]}}</li>
+            </ul>
+        </div>
+
 
         <div>
 
@@ -81,8 +87,8 @@
       </tab-content>
       <tab-content title="Définir votre photo de profile" icon="bi bi-camera">
         <form @submit.prevent=""  enctype="multipart/form-data">
-                      <span class="bg-dark p-5 rounded-circle d-flex justify-content-center align-items-center mx-auto position-relative " style="width: 150px;height: 150px">
-                        <img src="/logo-white.svg" alt=""  class="rounded-circle profile-photo" width="150" height="150">
+                      <span class="bg-dark p-5 rounded-circle  d-flex justify-content-center align-items-center mx-auto position-relative " style="width: 150px;height: 150px">
+                        <img src="/logo-white.svg" alt=""  class="rounded-circle border-white border-1 profile-photo" width="150" height="150">
                           <input id="avatar"  type="file" class="position-absolute hiding" width="150" height="150" name="avatar" accept="image/*"/>
                       </span>
           <c-button title="Update Avatar" id="submit-image" :loading="avatarLoadingUpdate" @click="updateAvatar" :status="avatarFormStatus" disabled/>
@@ -157,7 +163,8 @@ export default  {
       password: {value:'',valid: false},
       passwordConfirmation: {value:'',valid: false},
       avatarFormStatus: '',
-      avatarLoadingUpdate:false
+      avatarLoadingUpdate:false,
+      errors: []
     }
   },
   methods: {
@@ -215,7 +222,7 @@ export default  {
             return true
 
           }catch (error) {
-            console.log(error)
+            this.errors = error.response.data.errors
           }
 
       }
@@ -248,7 +255,10 @@ export default  {
       }
       return arr
 
-      }
+      },
+    errors() {
+      return this.errors;
+    }
   }
 
 

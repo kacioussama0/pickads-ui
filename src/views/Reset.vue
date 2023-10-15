@@ -51,41 +51,49 @@ export default  {
 
 <template>
 
-  <div class="card w-25 position-absolute start-50 top-50 translate-middle border-0 shadow">
+  <div class="container">
+    <div class="card p-3 border-0 shadow">
 
-    <div class="card-body">
+      <div class="card-body">
 
-      <h1 class="text-center">Reset Password</h1>
+        <h1 class="text-center mb-4">Réinitialiser le mot de passe</h1>
 
-      <form action="" @submit.prevent.stop="submit" class="vstack gap-2 text-dark">
+        <form action="" @submit.prevent.stop="submit" class="vstack gap-2 text-dark">
 
-        <div>
-          <label for="password" class="form-label">
-            <i class="bi bi-key"></i>
-            Password
-          </label>
-          <input type="password" id="password" class="form-control" v-model="password" placeholder="*********" required>
-        </div>
+          <div>
+            <label for="password" class="form-label">
+              <i class="bi bi-key"></i>
+              Mot de passe
+            </label>
+            <input type="password" id="password" class="form-control" v-model="password" placeholder="*********" required>
+          </div>
 
-        <div>
-          <label for="password_confirmation" class="form-label">
-            <i class="bi bi-key"></i>
-            Password Confirmation
-          </label>
-          <input type="password" class="form-control" id="password_confirmation" v-model="password_confirmation" placeholder="*********" required>
-        </div>
+          <div>
+            <label for="password_confirmation" class="form-label">
+              <i class="bi bi-key"></i>
+              Confirmation mot de passe
+            </label>
+            <input type="password" class="form-control" id="password_confirmation" v-model="password_confirmation" placeholder="*********" required>
+          </div>
 
-        <div>
-          <button class="btn btn-primary w-100 text-light d-block mt-3 bg-gradient rounded-pill border-0">Change Password</button>
-        </div>
+          <div>
+            <button class="btn btn-primary w-100 text-light d-block mt-3 bg-gradient rounded-pill border-0">Changer le mot de passe</button>
+          </div>
 
-      </form>
+        </form>
+
+      </div>
 
     </div>
-
   </div>
+
 </template>
 
 <style scoped>
-
+.container {
+  height: calc(100vh - 150px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 </style>

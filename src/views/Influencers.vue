@@ -122,42 +122,39 @@ export default  {
     },
 
 
-    like(userId) {
-
-        let text = event.target.lastElementChild;
-        let heart = event.target.firstElementChild;
-
-      console.log(event)
+    like(userId,username) {
 
 
-        fetchAPI.post('/put-like',{
-          'fingerprint': store.state.fingerprint,
-          'user_agent': store.state.userAgent,
-          'user_id': userId,
-        }).then((data)=> {
+          let element = document.getElementById(username);
+          let text = element.lastElementChild;
+          let heart = element.firstElementChild;
 
-          text.textContent++;
-          heart.classList = "bi bi-heart-fill text-danger";
-
-
-        }).catch((error)=> {
-
-          console.log(error)
-
-          fetchAPI.post('/put-unlike',{
+          fetchAPI.post('/put-like',{
             'fingerprint': store.state.fingerprint,
             'user_agent': store.state.userAgent,
             'user_id': userId,
           }).then((data)=> {
 
-            if(text.textContent >= 0) {
-              text.textContent--;
-            }
-            heart.classList = "bi bi-heart";
+            text.textContent++;
+            heart.className = "bi bi-heart-fill text-danger";
+
+
+          }).catch((error)=> {
+
+            fetchAPI.post('/put-unlike',{
+              'fingerprint': store.state.fingerprint,
+              'user_agent': store.state.userAgent,
+              'user_id': userId,
+            }).then((data)=> {
+
+              if(text.textContent >= 0) {
+                text.textContent--;
+              }
+              heart.classList = "bi bi-heart";
+
+            })
 
           })
-
-        })
 
 
 
@@ -325,11 +322,11 @@ export default  {
             <router-link :to="`/profile/${influencer.username}`" class="text-decoration-none">
             <div class="background-avatar-image rounded-top-4" :style="{backgroundImage: `url('${influencer.avatar['medium']}')`}"></div>
             </router-link>
-            <div class="position-absolute bottom-0 px-4 rounded-pill d-flex bg-light border-0 bg-opacity-75 align-items-center justify-content-center fw-bolder btn btn-light mb-2 translate-middle-x start-50"  @click="like(influencer.id)">
+            <div :id="influencer.username.toLowerCase()" class="position-absolute bottom-0 px-4 rounded-pill d-flex bg-light border-0 bg-opacity-75 align-items-center justify-content-center fw-bolder btn btn-light mb-2 translate-middle-x start-50"  @click="like(influencer.id,influencer.username)">
                 <i :class="myLikes.includes(influencer.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"></i>
                 <span class="ms-2">
                 {{influencer['likes']}}
-              </span>
+                </span>
             </div>
 
           </div>

@@ -8,15 +8,15 @@
       <p class="mb-3 mb-md-0">Tous réservés par PickADS © 2023</p>
 
       <div class="social-media d-flex flex-wrap justify-content-center justify-content-lg-start ms-4 ms-md-0">
-        <a href="#">
+        <a href="https://www.facebook.com/profile.php?id=61552559151697" target="_blank">
           <i class="bi bi-facebook"></i>
         </a>
 
-        <a href="#">
+        <a href="https://twitter.com/PickAds_dz" target="_blank">
           <i class="bi bi-twitter-x"></i>
         </a>
 
-        <a href="#">
+        <a href="https://www.instagram.com/pickads_dz" target="_blank">
           <i class="bi bi-instagram"></i>
         </a>
 

@@ -81,13 +81,13 @@ export default defineComponent({
                 <h1 class="mb-3 mt-2">Contactez-nous</h1>
 
                 <p>
-                  Nous sommes toujours ravis d'entendre nos visiteurs. Si vous avez des questions, des commentaires ou des besoins spécifiques, n'hésitez pas à nous contacter à [adresse e-mail ou numéro de téléphone].
+                  Nous sommes toujours ravis d'entendre nos visiteurs. Si vous avez des questions, des commentaires ou des besoins spécifiques, n'hésitez pas à nous contacter à adresse e-mail.
                   Nous avons hâte de vous servir et de vous aider à atteindre vos objectifs. Merci d'avoir visité PickADS.
                 </p>
 
                 <span>
                     <i class="bi bi-envelope me-2" style="font-size: 20px"></i>
-                    <span>Email : contact@pickads.com</span>
+                    <a href="mailto:contact@pickads.net">Email : contact@pickads.net</a>
                   </span>
 
               </div>

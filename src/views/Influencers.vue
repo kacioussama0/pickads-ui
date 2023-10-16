@@ -238,7 +238,7 @@ export default  {
     </button>
   </div>
 
-  <div class="container-fluid  px-md-5 me-5 my-5 w-100">
+  <div class="container-fluid  px-md-5 me-5 mt-5 w-100">
 
 
     <div class="modal fade" id="search" ref="search" tabindex="-1" aria-labelledby="search" aria-modal="true" role="dialog"  >
@@ -262,13 +262,13 @@ export default  {
 
 
 
-    <h1 class="text-center">Choisir votre Influenceur</h1>
+     <h1 class="text-center">Choisir votre Influenceur</h1>
 
 
-      <div class="d-flex align-items-center justify-content-center flex-wrap flex-md-nowrap my-5">
+      <div class="d-flex align-items-center justify-content-center flex-wrap flex-md-nowrap mb-5">
 
 
-        <div class="btn-group social-filter  align-items-center flex-wrap justify-content-start me-md-4  mb-xl-0" role="group" aria-label="Basic radio toggle button group" style="height: 48px" v-if="socialMedias.length">
+        <div class="btn-group social-filter  align-items-center flex-wrap justify-content-start me-md-4  mb-xl-0" role="group" aria-label="Basic radio toggle button group" v-if="socialMedias.length">
           <input type="radio" class="btn-check" name="social-media"  id="tout" autocomplete="off" value="" @change="filterBySocialMedia(socialMedia)" v-model="socialMedia">
           <label class="btn btn-outline-light rounded-0" for="tout" >
             <i class="bi bi-people-fill" style="font-size: 18px" ></i>
@@ -312,7 +312,7 @@ export default  {
       </div>
 
 
-    <div class="row g-4 row-cols-sm-2  row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 my-3">
+    <div class="row g-4 row-cols-sm-2  row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
 
       <div  v-for="influencer in getInfluncers.data" v-if="influencersLoaded" >
 
@@ -482,7 +482,7 @@ h1 {
   .social-filter,
   .filter-followers{
     width : 100% !important;
-    margin-bottom: 100px;
+    margin-top: 10px;
   }
 }
 
